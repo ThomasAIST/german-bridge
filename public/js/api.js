@@ -1,6 +1,7 @@
 const Api = (() => {
   const TOKEN_KEY = 'gb_token';
   const USER_KEY = 'gb_user';
+  const API_URL = (window.GB_CONFIG?.API_URL || '').replace(/\/$/, '');
 
   function getToken() { return localStorage.getItem(TOKEN_KEY); }
   function getUser() {
@@ -16,7 +17,7 @@ const Api = (() => {
   }
 
   async function req(method, url, body) {
-    const res = await fetch(url, {
+    const res = await fetch(`${API_URL}${url}`, {
       method,
       headers: {
         'Content-Type': 'application/json',
@@ -50,7 +51,8 @@ const Sockets = (() => {
   let socket = null;
   function connect() {
     if (socket) return socket;
-    socket = io({ auth: { token: Api.getToken() } });
+    const socketUrl = (window.GB_CONFIG?.API_URL || '').replace(/\/$/, '') || undefined;
+    socket = io(socketUrl, { auth: { token: Api.getToken() } });
     return socket;
   }
   function get() { return socket; }

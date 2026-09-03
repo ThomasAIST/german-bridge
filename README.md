@@ -45,7 +45,7 @@ You'll need Node.js 18+ (built and tested on Node 22).
 ```bash
 cd german-bridge
 npm install
-cp .env.example .env      # optional: set a real JWT_SECRET
+cp .env.example .env      # set JWT_SECRET to a long random value
 npm start
 ```
 
@@ -65,6 +65,25 @@ code to seat them both.
 
 Data persists in `data.sqlite` in the project root (accounts + finished game
 history). Delete that file to reset everything.
+
+## Deploying the frontend to GitHub Pages
+
+GitHub Pages hosts only static files, so the Node.js server must run separately.
+The included workflow publishes `public/` to Pages whenever `main` changes.
+
+1. Deploy this repository's Node server to a host that supports Node.js and
+  Socket.IO. Set `JWT_SECRET` to a long random value and `FRONTEND_URL` to the
+  exact GitHub Pages URL, for example
+  `https://OWNER.github.io/german-bridge`.
+2. Set `API_URL` in `public/config.js` to the HTTPS URL of that server, for
+  example `https://your-game-server.example.com`.
+3. Commit the `public/config.js` change and push to `main`.
+4. In GitHub, open **Settings → Pages**, choose **GitHub Actions** as the
+  source, and wait for the `Deploy to GitHub Pages` workflow to finish.
+
+Do not put the JWT secret in `public/config.js`; everything in `public/` is
+visible to anyone visiting the site. The server must use HTTPS in production so
+login tokens and Socket.IO traffic are encrypted.
 
 ## Project layout
 

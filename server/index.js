@@ -9,11 +9,27 @@ const { register, login, requireAuth, verifyToken } = require('./auth');
 const { RoomManager, QUICK_MATCH_SIZE } = require('./rooms');
 
 const app = express();
+const frontendUrl = (process.env.FRONTEND_URL || '').replace(/\/$/, '');
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin && (!frontendUrl || origin === frontendUrl)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  }
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
+  next();
+});
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
+app.get('/health', (req, res) => {
+  res.json({ ok: true });
+});
+
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, { cors: { origin: frontendUrl || true } });
 const roomManager = new RoomManager(io);
 
 // ---------------------------------------------------------------------
@@ -230,6 +246,6 @@ io.on('connection', (socket) => {
 });
 
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-  console.log(`German Bridge server running at http://localhost:${PORT}`);
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`German Bridge server listening on port ${PORT}`);
 });
