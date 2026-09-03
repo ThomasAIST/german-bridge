@@ -4,6 +4,9 @@
   "description": "Online playground for the card game German Bridge - matchmaking, private rooms, bots, accounts & history.",
   "main": "server/index.js",
   "type": "commonjs",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "start": "node server/index.js",
     "dev": "nodemon server/index.js"

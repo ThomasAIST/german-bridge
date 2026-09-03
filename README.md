@@ -45,7 +45,7 @@ You'll need Node.js 18+ (built and tested on Node 22).
 ```bash
 cd german-bridge
 npm install
-cp .env.example .env      # optional: set a real JWT_SECRET
+cp .env.example .env      # set JWT_SECRET to a long random value
 npm start
 ```
 
