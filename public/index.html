@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>German Bridge Online</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="/socket.io/socket.io.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body class="bg-felt text-slate-100 min-h-screen font-inter">
+
+  <header class="flex items-center justify-between px-6 py-3 bg-black/30 backdrop-blur border-b border-white/10 sticky top-0 z-40">
+    <div class="flex items-center gap-2 cursor-pointer" onclick="App.goTo('lobby')">
+      <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center font-poppins font-800 text-slate-900 text-lg">GB</div>
+      <span class="font-poppins font-700 text-lg tracking-tight">German Bridge <span class="text-amber-400">Online</span></span>
+    </div>
+    <nav id="nav-auth" class="flex items-center gap-3 text-sm"></nav>
+  </header>
+
+  <main id="app" class="max-w-6xl mx-auto px-4 py-8"></main>
+
+  <template id="tpl-toast"><div class="toast"></div></template>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/cards.js"></script>
+  <script src="/js/views.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
