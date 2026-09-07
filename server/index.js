@@ -41,27 +41,27 @@ const roomManager = new RoomManager(io);
 // ---------------------------------------------------------------------
 
 app.post('/api/register', (req, res) => {
-  try {
+  (async () => { try {
     const { username, password } = req.body || {};
-    const result = register(username, password);
+    const result = await register(username, password);
     res.json(result);
   } catch (e) {
     res.status(400).json({ error: e.message });
-  }
+  } })();
 });
 
 app.post('/api/login', (req, res) => {
-  try {
+  (async () => { try {
     const { username, password } = req.body || {};
-    const result = login(username, password);
+    const result = await login(username, password);
     res.json(result);
   } catch (e) {
     res.status(400).json({ error: e.message });
-  }
+  } })();
 });
 
-app.get('/api/profile', requireAuth, (req, res) => {
-  const games = db.prepare(`
+app.get('/api/profile', requireAuth, async (req, res) => {
+  const games = await db.all(`
     SELECT g.id, g.mode, g.num_players, g.rounds_played, g.finished_at,
            gp.final_score, gp.placement
     FROM game_players gp
@@ -69,24 +69,24 @@ app.get('/api/profile', requireAuth, (req, res) => {
     WHERE gp.user_id = ?
     ORDER BY g.finished_at DESC
     LIMIT 50
-  `).all(req.user.id);
+  `, [req.user.id]);
 
-  const stats = db.prepare(`
+  const stats = await db.get(`
     SELECT COUNT(*) as played,
            SUM(CASE WHEN placement = 1 THEN 1 ELSE 0 END) as wins,
            AVG(final_score) as avgScore
     FROM game_players WHERE user_id = ?
-  `).get(req.user.id);
+  `, [req.user.id]);
 
   res.json({ username: req.user.username, games, stats });
 });
 
 // game detail incl. other players, for a history entry
-app.get('/api/games/:id', requireAuth, (req, res) => {
-  const players = db.prepare(`
+app.get('/api/games/:id', requireAuth, async (req, res) => {
+  const players = await db.all(`
     SELECT display_name, is_bot, final_score, placement
     FROM game_players WHERE game_id = ? ORDER BY placement ASC
-  `).all(req.params.id);
+  `, [req.params.id]);
   if (!players.length) return res.status(404).json({ error: 'Game not found.' });
   res.json({ players });
 });
@@ -200,24 +200,24 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('place_bid', ({ bid }, cb) => {
+  socket.on('place_bid', async ({ bid }, cb) => {
     try {
       const room = roomManager.getRoom(socket.data.roomCode);
       if (!room || !room.game) throw new Error('No active game.');
       const seat = room.seats.find(s => s.userId === user.id);
-      roomManager.handleBid(room, seat.id, Number(bid));
+      await roomManager.handleBid(room, seat.id, Number(bid));
       cb && cb({ ok: true });
     } catch (e) {
       cb && cb({ ok: false, error: e.message });
     }
   });
 
-  socket.on('play_card', ({ card }, cb) => {
+  socket.on('play_card', async ({ card }, cb) => {
     try {
       const room = roomManager.getRoom(socket.data.roomCode);
       if (!room || !room.game) throw new Error('No active game.');
       const seat = room.seats.find(s => s.userId === user.id);
-      roomManager.handlePlay(room, seat.id, card);
+      await roomManager.handlePlay(room, seat.id, card);
       cb && cb({ ok: true });
     } catch (e) {
       cb && cb({ ok: false, error: e.message });
@@ -250,15 +250,16 @@ io.on('connection', (socket) => {
 });
 
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, '0.0.0.0', () => {
-  console.log(`German Bridge server listening on port ${PORT}`);
-});
+async function start() {
+  await db.init();
+  server.listen(PORT, '0.0.0.0', () => console.log(`German Bridge server listening on port ${PORT}`));
+}
+start().catch(error => { console.error('Database startup failed:', error); process.exit(1); });
 
 function shutdown(signal) {
   console.log(`${signal} received; shutting down.`);
   io.close(() => {
-    db.close();
-    process.exit(0);
+    db.close().finally(() => process.exit(0));
   });
 }
 
