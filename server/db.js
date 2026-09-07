@@ -1,17 +1,39 @@
 const mysql = require('mysql2/promise');
 
-const pool = mysql.createPool({
+let pool;
+
+const connectionConfig = {
   host: process.env.MYSQL_HOST,
   port: Number(process.env.MYSQL_PORT || 3306),
   user: process.env.MYSQL_USER,
   password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE,
-  waitForConnections: true,
-  connectionLimit: Number(process.env.MYSQL_CONNECTION_LIMIT || 10),
   ssl: process.env.MYSQL_SSL === 'true' ? {} : undefined,
-});
+};
+
+function databaseName() {
+  const name = process.env.MYSQL_DATABASE;
+  if (!name || !/^[A-Za-z0-9_$-]+$/.test(name)) {
+    throw new Error('MYSQL_DATABASE must contain only letters, numbers, underscores, hyphens, or dollar signs.');
+  }
+  return name;
+}
 
 async function init() {
+  const name = databaseName();
+  const admin = await mysql.createConnection(connectionConfig);
+  try {
+    await admin.query(`CREATE DATABASE IF NOT EXISTS \`${name}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+  } finally {
+    await admin.end();
+  }
+
+  pool = mysql.createPool({
+    ...connectionConfig,
+    database: name,
+    waitForConnections: true,
+    connectionLimit: Number(process.env.MYSQL_CONNECTION_LIMIT || 10),
+  });
+
   await pool.query(`
     CREATE TABLE IF NOT EXISTS users (
       id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -76,7 +98,7 @@ async function transaction(callback) {
 }
 
 async function close() {
-  await pool.end();
+  if (pool) await pool.end();
 }
 
 module.exports = { init, get, all, run, transaction, close };

@@ -83,12 +83,13 @@ variables:
 - `MYSQL_PORT=3306`
 - `MYSQL_USER` — an RDS database user
 - `MYSQL_PASSWORD` — the RDS database password
-- `MYSQL_DATABASE` — an existing database/schema on RDS
+- `MYSQL_DATABASE` — the database/schema name to create on RDS if missing
 - `MYSQL_SSL=true` — recommended for RDS
 - `MYSQL_CONNECTION_LIMIT=10`
 
-Create the database/schema and user in RDS before starting the service. The
-application will create its tables automatically. Do not run multiple game
+Create the RDS instance and user before starting the service. The application
+creates `MYSQL_DATABASE` if the configured user has permission, then creates
+the application tables automatically. Do not run multiple game
 instances yet: live rooms and Socket.IO connections are held in process memory.
 MySQL is shared safely, but real-time room state still needs Redis for
 horizontal scaling.
