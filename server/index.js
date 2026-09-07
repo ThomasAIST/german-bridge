@@ -8,6 +8,10 @@ const db = require('./db');
 const { register, login, requireAuth, verifyToken } = require('./auth');
 const { RoomManager, QUICK_MATCH_SIZE } = require('./rooms');
 
+if (process.env.NODE_ENV === 'production' && (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32)) {
+  throw new Error('JWT_SECRET must be at least 32 characters in production.');
+}
+
 const app = express();
 const frontendUrl = (process.env.FRONTEND_URL || '').replace(/\/$/, '');
 app.use((req, res, next) => {
@@ -249,3 +253,14 @@ const PORT = process.env.PORT || 3000;
 server.listen(PORT, '0.0.0.0', () => {
   console.log(`German Bridge server listening on port ${PORT}`);
 });
+
+function shutdown(signal) {
+  console.log(`${signal} received; shutting down.`);
+  io.close(() => {
+    db.close();
+    process.exit(0);
+  });
+}
+
+process.once('SIGTERM', () => shutdown('SIGTERM'));
+process.once('SIGINT', () => shutdown('SIGINT'));

@@ -66,6 +66,42 @@ code to seat them both.
 Data persists in `data.sqlite` in the project root (accounts + finished game
 history). Delete that file to reset everything.
 
+## Deploying the server to AWS
+
+The repository includes a `Dockerfile` for AWS App Runner, ECS/Fargate, or an
+EC2 host running Docker. The server listens on `0.0.0.0` and uses the `PORT`
+provided by AWS. It also exposes `GET /health` for load-balancer health checks.
+
+For a first deployment, use one running container and provide these environment
+variables:
+
+- `NODE_ENV=production`
+- `JWT_SECRET` — a randomly generated value of at least 32 characters
+- `FRONTEND_URL` — the exact HTTPS URL of the frontend, with no trailing slash
+- `DB_PATH=/app/data/data.sqlite` — the SQLite file location
+
+With App Runner, configure a persistent EFS mount at `/app/data` if account and
+game history must survive deployments. Without persistent storage, SQLite data
+is tied to the current container instance. Do not run multiple instances of
+this version: rooms and Socket.IO connections are held in process memory, and
+SQLite is not a shared database. For horizontal scaling, move persistence to a
+managed database and room state/pub-sub to Redis, then add the Socket.IO Redis
+adapter.
+
+Example local container check:
+
+```bash
+docker build -t german-bridge .
+docker run --rm -p 3000:3000 \
+  -e NODE_ENV=production \
+  -e JWT_SECRET=replace-with-a-long-random-value-123456 \
+  -e FRONTEND_URL=http://localhost:3000 \
+  -v german-bridge-data:/app/data \
+  german-bridge
+```
+
+Then open `http://localhost:3000` and check `http://localhost:3000/health`.
+
 ## Deploying the frontend to GitHub Pages
 
 GitHub Pages hosts only static files, so the Node.js server must run separately.
