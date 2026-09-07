@@ -7,7 +7,7 @@ if (!JWT_SECRET || JWT_SECRET === 'asdlkfjhasldkfj' || JWT_SECRET === 'dev-secre
   throw new Error('JWT_SECRET must be set to a long random value.');
 }
 
-function register(username, password) {
+async function register(username, password) {
   username = String(username || '').trim();
   if (username.length < 3 || username.length > 20) {
     throw new Error('Username must be 3-20 characters.');
@@ -15,16 +15,16 @@ function register(username, password) {
   if (!password || password.length < 4) {
     throw new Error('Password must be at least 4 characters.');
   }
-  const existing = db.prepare('SELECT id FROM users WHERE username = ?').get(username);
+  const existing = await db.get('SELECT id FROM users WHERE username = ?', [username]);
   if (existing) throw new Error('That username is already taken.');
 
   const hash = bcrypt.hashSync(password, 10);
-  const info = db.prepare('INSERT INTO users (username, password_hash) VALUES (?, ?)').run(username, hash);
-  return makeToken({ id: info.lastInsertRowid, username });
+  const info = await db.run('INSERT INTO users (username, password_hash) VALUES (?, ?)', [username, hash]);
+  return makeToken({ id: info.insertId, username });
 }
 
-function login(username, password) {
-  const user = db.prepare('SELECT * FROM users WHERE username = ?').get(String(username || '').trim());
+async function login(username, password) {
+  const user = await db.get('SELECT * FROM users WHERE username = ?', [String(username || '').trim()]);
   if (!user) throw new Error('Invalid username or password.');
   if (!bcrypt.compareSync(password || '', user.password_hash)) {
     throw new Error('Invalid username or password.');

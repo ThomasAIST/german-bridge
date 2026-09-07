@@ -1,40 +1,82 @@
-const Database = require('better-sqlite3');
-const path = require('path');
-const fs = require('fs');
+const mysql = require('mysql2/promise');
 
-const dbPath = process.env.DB_PATH || path.join(__dirname, '..', 'data.sqlite');
-fs.mkdirSync(path.dirname(dbPath), { recursive: true });
-const db = new Database(dbPath);
-db.pragma('journal_mode = WAL');
+const pool = mysql.createPool({
+  host: process.env.MYSQL_HOST,
+  port: Number(process.env.MYSQL_PORT || 3306),
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE,
+  waitForConnections: true,
+  connectionLimit: Number(process.env.MYSQL_CONNECTION_LIMIT || 10),
+  ssl: process.env.MYSQL_SSL === 'true' ? {} : undefined,
+});
 
-db.exec(`
-CREATE TABLE IF NOT EXISTS users (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  username TEXT UNIQUE NOT NULL,
-  password_hash TEXT NOT NULL,
-  created_at TEXT NOT NULL DEFAULT (datetime('now'))
-);
+async function init() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS users (
+      id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+      username VARCHAR(20) NOT NULL UNIQUE,
+      password_hash VARCHAR(255) NOT NULL,
+      created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB
+  `);
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS games (
+      id VARCHAR(100) NOT NULL PRIMARY KEY,
+      mode VARCHAR(20) NOT NULL,
+      num_players INT NOT NULL,
+      rounds_played INT NOT NULL,
+      started_at DATETIME NOT NULL,
+      finished_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB
+  `);
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS game_players (
+      id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+      game_id VARCHAR(100) NOT NULL,
+      user_id BIGINT UNSIGNED NULL,
+      display_name VARCHAR(20) NOT NULL,
+      is_bot BOOLEAN NOT NULL DEFAULT FALSE,
+      final_score INT NOT NULL,
+      placement INT NOT NULL,
+      CONSTRAINT fk_game_players_game FOREIGN KEY (game_id) REFERENCES games(id),
+      CONSTRAINT fk_game_players_user FOREIGN KEY (user_id) REFERENCES users(id)
+    ) ENGINE=InnoDB
+  `);
+}
 
-CREATE TABLE IF NOT EXISTS games (
-  id TEXT PRIMARY KEY,
-  mode TEXT NOT NULL,              -- 'quick' | 'private' | 'bots'
-  num_players INTEGER NOT NULL,
-  rounds_played INTEGER NOT NULL,
-  started_at TEXT NOT NULL,
-  finished_at TEXT NOT NULL DEFAULT (datetime('now'))
-);
+async function get(sql, params = []) {
+  const [rows] = await pool.execute(sql, params);
+  return rows[0];
+}
 
-CREATE TABLE IF NOT EXISTS game_players (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  game_id TEXT NOT NULL,
-  user_id INTEGER,                 -- NULL for bots
-  display_name TEXT NOT NULL,
-  is_bot INTEGER NOT NULL DEFAULT 0,
-  final_score INTEGER NOT NULL,
-  placement INTEGER NOT NULL,
-  FOREIGN KEY (game_id) REFERENCES games(id),
-  FOREIGN KEY (user_id) REFERENCES users(id)
-);
-`);
+async function all(sql, params = []) {
+  const [rows] = await pool.execute(sql, params);
+  return rows;
+}
 
-module.exports = db;
+async function run(sql, params = [], connection = pool) {
+  const [result] = await connection.execute(sql, params);
+  return result;
+}
+
+async function transaction(callback) {
+  const connection = await pool.getConnection();
+  try {
+    await connection.beginTransaction();
+    const result = await callback({ run: (sql, params) => run(sql, params, connection) });
+    await connection.commit();
+    return result;
+  } catch (error) {
+    await connection.rollback();
+    throw error;
+  } finally {
+    connection.release();
+  }
+}
+
+async function close() {
+  await pool.end();
+}
+
+module.exports = { init, get, all, run, transaction, close };

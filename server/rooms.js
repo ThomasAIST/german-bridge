@@ -134,17 +134,17 @@ class RoomManager {
 
   // ---- player actions ---------------------------------------------------
 
-  handleBid(room, seatId, bid) {
+  async handleBid(room, seatId, bid) {
     engine.placeBid(room.game, seatId, bid);
-    this.afterAction(room);
+    await this.afterAction(room);
   }
 
-  handlePlay(room, seatId, card) {
+  async handlePlay(room, seatId, card) {
     engine.playCard(room.game, seatId, card);
-    this.afterAction(room);
+    await this.afterAction(room);
   }
 
-  afterAction(room) {
+  async afterAction(room) {
     const g = room.game;
     if (g.phase === 'round_end') {
       // brief pause so players can see the round summary, then continue
@@ -159,7 +159,7 @@ class RoomManager {
     }
     if (g.phase === 'game_end') {
       room.status = 'finished';
-      this.persistGame(room);
+      await this.persistGame(room);
       this.broadcastState(room);
       return;
     }
@@ -173,7 +173,7 @@ class RoomManager {
     const seat = room.seats.find(s => s.id === g.players[g.turnIndex].id);
     if (!seat || !seat.isBot) return;
 
-    setTimeout(() => {
+    setTimeout(async () => {
       if (!this.rooms.has(room.code) || room.game !== g) return; // room/game changed underneath
       try {
         if (g.phase === 'bidding') {
@@ -188,10 +188,10 @@ class RoomManager {
             bid = Array.from({ length: g.round + 1 }, (_, value) => value)
               .find(value => value !== bid);
           }
-          this.handleBid(room, seat.id, bid);
+          await this.handleBid(room, seat.id, bid);
         } else if (g.phase === 'playing') {
           const card = botPlayCard(g, seat.id);
-          this.handlePlay(room, seat.id, card);
+          await this.handlePlay(room, seat.id, card);
         }
       } catch (e) {
         // defensive: should not happen if bot logic only picks legal moves
@@ -200,25 +200,24 @@ class RoomManager {
     }, BOT_THINK_DELAY_MS);
   }
 
-  persistGame(room) {
+  async persistGame(room) {
     const g = room.game;
     const standings = engine.standings(g);
-    const insertGame = db.prepare(`
+    const insertGame = `
       INSERT INTO games (id, mode, num_players, rounds_played, started_at)
       VALUES (?, ?, ?, ?, ?)
-    `);
-    const insertPlayer = db.prepare(`
+    `;
+    const insertPlayer = `
       INSERT INTO game_players (game_id, user_id, display_name, is_bot, final_score, placement)
       VALUES (?, ?, ?, ?, ?, ?)
-    `);
-    const tx = db.transaction(() => {
-      insertGame.run(g.id, room.mode, g.players.length, g.round, room.gameStartedAt);
-      standings.forEach((s, i) => {
+    `;
+    await db.transaction(async tx => {
+      await tx.run(insertGame, [g.id, room.mode, g.players.length, g.round, room.gameStartedAt]);
+      for (const [i, s] of standings.entries()) {
         const seat = room.seats.find(se => se.id === s.id);
-        insertPlayer.run(g.id, seat && seat.userId ? seat.userId : null, s.name, s.isBot ? 1 : 0, s.score, i + 1);
-      });
+        await tx.run(insertPlayer, [g.id, seat && seat.userId ? seat.userId : null, s.name, s.isBot ? 1 : 0, s.score, i + 1]);
+      }
     });
-    tx();
   }
 
   // ---- lookups ------------------------------------------------------

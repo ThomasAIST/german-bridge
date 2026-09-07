@@ -10,16 +10,16 @@ laptop in one command.
 - **Node.js + Express** — REST endpoints for register/login and profile/history.
 - **Socket.IO** — realtime table state (bids, cards played, turn order) pushed
   to every seat as it happens.
-- **better-sqlite3** — zero-setup embedded database for accounts and finished
-  games. No separate DB server to run.
+- **MySQL (`mysql2`)** — managed database support for AWS RDS accounts and
+  finished games.
 - **Vanilla JS + Tailwind (CDN) frontend** — no build step. Open the page and
   it works. Swapping this for React/Vite later is a contained, optional step
   (see "Extend" below) once the game logic itself isn't in question.
 
 This is a deliberate choice for a *prototype*: one server process, in-memory
-room/game state, SQLite for anything that must survive a restart (accounts,
-history). It'll comfortably hold a few dozen concurrent tables. Scaling past
-that is a real extension, not a rewrite — see below.
+room/game state, and MySQL for anything that must survive a restart (accounts,
+history). It should run as one AWS service instance. Scaling room state across
+multiple instances still requires Redis and the Socket.IO Redis adapter.
 
 ## Rules implemented
 
@@ -63,8 +63,9 @@ windows/profiles (or two devices on the same network using your machine's
 LAN IP instead of `localhost`), register two accounts, and use a private room
 code to seat them both.
 
-Data persists in `data.sqlite` in the project root (accounts + finished game
-history). Delete that file to reset everything.
+The server creates the `users`, `games`, and `game_players` tables in the
+configured MySQL database on startup. Database credentials are loaded from
+environment variables; they are never stored in the frontend.
 
 ## Deploying the server to AWS
 
@@ -78,15 +79,19 @@ variables:
 - `NODE_ENV=production`
 - `JWT_SECRET` — a randomly generated value of at least 32 characters
 - `FRONTEND_URL` — the exact HTTPS URL of the frontend, with no trailing slash
-- `DB_PATH=/app/data/data.sqlite` — the SQLite file location
+- `MYSQL_HOST` — the RDS endpoint, without `https://`
+- `MYSQL_PORT=3306`
+- `MYSQL_USER` — an RDS database user
+- `MYSQL_PASSWORD` — the RDS database password
+- `MYSQL_DATABASE` — an existing database/schema on RDS
+- `MYSQL_SSL=true` — recommended for RDS
+- `MYSQL_CONNECTION_LIMIT=10`
 
-With App Runner, configure a persistent EFS mount at `/app/data` if account and
-game history must survive deployments. Without persistent storage, SQLite data
-is tied to the current container instance. Do not run multiple instances of
-this version: rooms and Socket.IO connections are held in process memory, and
-SQLite is not a shared database. For horizontal scaling, move persistence to a
-managed database and room state/pub-sub to Redis, then add the Socket.IO Redis
-adapter.
+Create the database/schema and user in RDS before starting the service. The
+application will create its tables automatically. Do not run multiple game
+instances yet: live rooms and Socket.IO connections are held in process memory.
+MySQL is shared safely, but real-time room state still needs Redis for
+horizontal scaling.
 
 Example local container check:
 
@@ -96,7 +101,12 @@ docker run --rm -p 3000:3000 \
   -e NODE_ENV=production \
   -e JWT_SECRET=replace-with-a-long-random-value-123456 \
   -e FRONTEND_URL=http://localhost:3000 \
-  -v german-bridge-data:/app/data \
+  -e MYSQL_HOST=your-rds-endpoint.amazonaws.com \
+  -e MYSQL_PORT=3306 \
+  -e MYSQL_USER=german_bridge \
+  -e MYSQL_PASSWORD=your-password \
+  -e MYSQL_DATABASE=german_bridge \
+  -e MYSQL_SSL=true \
   german-bridge
 ```
 
