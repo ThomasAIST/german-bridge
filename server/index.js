@@ -13,14 +13,22 @@ if (process.env.NODE_ENV === 'production' && (!process.env.JWT_SECRET || process
 }
 
 const app = express();
-const frontendUrl = (process.env.FRONTEND_URL || '').replace(/\/$/, '');
+const allowedOrigins = (process.env.FRONTEND_URL || '')
+  .split(',')
+  .map(value => value.trim().replace(/\/$/, ''))
+  .filter(Boolean)
+  .map(value => {
+    try { return new URL(value).origin; } catch { return value; }
+  });
+const frontendUrl = allowedOrigins[0] || '';
 app.use((req, res, next) => {
   const origin = req.headers.origin;
-  if (origin && (!frontendUrl || origin === frontendUrl)) {
+  if (origin && (!allowedOrigins.length || allowedOrigins.includes(origin))) {
     res.setHeader('Access-Control-Allow-Origin', origin);
     res.setHeader('Vary', 'Origin');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+    res.setHeader('Access-Control-Max-Age', '86400');
   }
   if (req.method === 'OPTIONS') return res.sendStatus(204);
   next();
@@ -33,7 +41,12 @@ app.get('/health', (req, res) => {
 });
 
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: frontendUrl || true } });
+const io = new Server(server, {
+  cors: {
+    origin: allowedOrigins.length ? allowedOrigins : true,
+    methods: ['GET', 'POST'],
+  },
+});
 const roomManager = new RoomManager(io);
 
 // ---------------------------------------------------------------------
