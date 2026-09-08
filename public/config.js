@@ -1,4 +1,4 @@
-// Set API_URL to the public URL of the Node/Socket.IO server when using GitHub Pages.
+// Direct EC2 testing endpoint. Use HTTPS on port 443 in production.
 window.GB_CONFIG = {
-  API_URL: 'https://ec2-54-252-248-255.ap-southeast-2.compute.amazonaws.com',
+  API_URL: 'http://ec2-54-252-248-255.ap-southeast-2.compute.amazonaws.com:3000',
 };
