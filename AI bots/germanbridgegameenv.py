@@ -65,7 +65,7 @@ class GermanBridgeGameEnv(gym.Env):
 
         # Randomly choose a position for the agent
         self.agent_position = random.randint(0, 3)  
-        print('Agent position:', self.agent_position)
+        # print('Agent position:', self.agent_position)
         for i in range(4):
             if i == self.agent_position:
                 self.players.append(AIBot())  # Add an AI bot player
@@ -186,12 +186,15 @@ class GermanBridgeGameEnv(gym.Env):
 
                 for i in range(4):
                     self.scores[i] += self._calculate_score(self.players[i].bidded, self.players[i].won)  # Calculate the score for each player
-                print(self.scores, 'scores after round', self.round)
+                
                 self.bidding_stage = True  # Set the bidding stage to True for the next round
                 self.playing_stage = False  # Set the playing stage to False for the next round
                 self.round += 1  # Increment the round number
                 if self.round > 13:
                     self.game_over = True  # Set the game over flag to True if all rounds are completed
+                    print('Agent position:', self.agent_position)
+                    print(self.scores, 'scores after round', self.round-1)
+                    print('Agent score:', self.scores[self.agent_position])
                     return self.get_observation(), 0, True, False, {}  # Return the final observation and done flag
                 else:
                     self._deal_round(self.round)  # Deal a new round of cards to each player
