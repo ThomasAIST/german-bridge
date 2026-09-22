@@ -47,6 +47,8 @@ def context_to_tensor(bids: list[int], scores: list[int], playing_position: int,
         own_status = [own_bid / n, own_won / n, (own_bid-own_won) / n]  # Normalize own bid and include own won status
         own_status_tensor = torch.tensor(own_status, dtype=torch.float32)
         tensor = torch.cat((tensor, own_status_tensor), dim=0)
+    else:
+        tensor = torch.cat((tensor, torch.tensor([-1, -1, -1], dtype=torch.float32)), dim=0)  # Fill with -1 if own bid and won are not provided
     return tensor
 
 def previous_to_tensors(previous_hands: list[int], previous_cards: list[int], triumph_suit: int, playing_position: int, max_previous_hand_length: int) -> tuple[torch.Tensor]:
@@ -122,3 +124,33 @@ def calculate_score(bid: int, won: int) -> int:
         return 10 + bid**2  # Score is 10 plus the number of tricks if the bid is met
     else:
         return -(abs(bid - won)**2)  # Negative score based on how far off the bid was
+
+def calculate_advantages(returns, values):
+    advantages = returns - values
+    # Normalize the advantage
+    advantages = (advantages - advantages.mean()) / advantages.std()
+    return advantages
+
+def calculate_returns(rewards, discount_factor):
+    returns = []
+    cumulative_reward = 0
+    for r in reversed(rewards):
+        cumulative_reward = r + cumulative_reward * discount_factor
+        returns.insert(0, cumulative_reward)
+    returns = torch.tensor(returns)
+    # normalize the return
+    returns = (returns - returns.mean()) / returns.std()
+    return returns
+
+def calculate_surrogate_loss(old_log_probs, new_log_probs, epsilon, advantages):
+    advantages = advantages.detach()  # Detach advantages to prevent gradients from flowing through them
+    policy_ratio = torch.exp(new_log_probs - old_log_probs)
+    surrogate1 = policy_ratio * advantages
+    surrogate2 = torch.clamp(policy_ratio, 1 - epsilon, 1 + epsilon) * advantages
+    return torch.min(surrogate1, surrogate2)
+
+def calculate_losses(surrogate_loss, entropy, entropy_coefficient, returns, critic_values):
+    entropy_bonus = entropy_coefficient * entropy
+    policy_loss = -(surrogate_loss + entropy_bonus).sum()
+    value_loss = torch.nn.functional.smooth_l1_loss(returns, critic_values).sum()
+    return policy_loss, value_loss
