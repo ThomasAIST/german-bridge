@@ -23,9 +23,12 @@ class ComputerBot(Player):
         super().__init__()
         # Additional attributes for computer bot
 
-    def bid(self, n):
-        # Logic for the computer bot to make a bid
-        self.bidded = random.randint(0, n)  # Example: Random bid between 0 and n
+    def bid(self, n, current_total=0):
+        """Choose a bid without making the running total equal the round size."""
+        legal_bids = [bid for bid in range(n + 1) if current_total + bid != n]
+        if not legal_bids:
+            raise ValueError("No legal bid for this round and current total.")
+        self.bidded = random.choice(legal_bids)
         return self.bidded
 
     def play_card(self, played_cards, triumph_suit):
@@ -45,5 +48,9 @@ class ComputerBot(Player):
                 # elif fixed_suit is None:
                 #     playable_hand.append(x)
 
-        index = random.choice(list(range(len(playable_hand))))  # Example: Randomly choose a card from hand
-        return self.hand.pop(index)  # Remove and return the chosen card
+        card = random.choice(playable_hand)  # Example: Randomly choose a card from playable hand
+        self.hand.remove(card)  # Remove the chosen card from hand
+        return card
+        # index = random.choice(list(range(len(playable_hand))))  # Example: Randomly choose a card from hand
+        # print(played_cards, triumph_suit, fixed_suit, self.hand, playable_hand, index, 'played_cards, triumph_suit, fixed_suit, self.hand, playable_hand, index')
+        # return self.hand.pop(index)  # Remove and return the chosen card
