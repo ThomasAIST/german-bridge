@@ -212,9 +212,9 @@ class GermanBridgeGameEnv(gym.Env):
             reward = 0
             if winning_player == self.agent_position:
                 if self.players[self.agent_position].won <= self.players[self.agent_position].bidded:
-                    reward = 1  # Reward the agent for winning the round
+                    reward = 0.5  # Reward the agent for progressing towards their bid
                 else:
-                    reward = -1  # Penalize the agent for losing the round
+                    reward = -0.5  # Penalize the agent for losing the round
             
             self.current_player = winning_player  # Set the current player to the winning player for the next round
             self.last_trick = (tuple(zip(self.played_by, self.played_cards)), winning_player)
@@ -224,7 +224,7 @@ class GermanBridgeGameEnv(gym.Env):
             self.played_by = []
 
             if self.players[self.agent_position].hand == []:
-
+                reward = 0.8 if self.players[self.agent_position].won == self.players[self.agent_position].bidded else -0.8
                 for i in range(4):
                     self.scores[i] += self._calculate_score(self.players[i].bidded, self.players[i].won)  # Calculate the score for each player
                 self._render_event(f"Round {self.round} finished. Scores: {self.scores}.")
@@ -236,7 +236,8 @@ class GermanBridgeGameEnv(gym.Env):
                     self.game_over = True  # Set the game over flag to True if all rounds are completed
                     self._record_episode_result()
                     self._render_event("Game complete.")
-                    return self.get_observation(), 0, True, False, {}  # Return the final observation and done flag
+                    reward = 1 if self.scores[self.agent_position] >= max(self.scores) else -1  # Reward the agent for winning the game
+                    return self.get_observation(), reward, True, False, {}  # Return the final observation and done flag
                 else:
                     self._deal_round(self.round)  # Deal a new round of cards to each player
                     for i in range(4):
@@ -261,6 +262,7 @@ class GermanBridgeGameEnv(gym.Env):
             "episode": self.training_progress["episode"] or len(self.episode_history) + 1,
             "score": score,
             "rank": 1 + sum(other_score > score for other_score in self.scores),
+            "reward": None,  # Filled after collection and optimizer updates finish
         })
         self._episode_result_recorded = True
 
@@ -299,7 +301,22 @@ class GermanBridgeGameEnv(gym.Env):
             return
         self._last_episode_finished_at = time.monotonic()
         self._completed_training_episodes += 1
+        if self.game_over and self._episode_result_recorded:
+            self.episode_history[-1]["reward"] = float(self.training_progress["episode_reward"])
         self.set_training_progress()
+
+    def record_episode_reward(self, reward):
+        """Preserve the collected return even if model updates are interrupted."""
+        if self.game_over and self._episode_result_recorded:
+            self.episode_history[-1]["reward"] = float(reward)
+
+    def finish_training(self, phase="Training complete"):
+        """Stop timing but leave the observer available for inspection and saving."""
+        if self._training_started_at is not None and self._training_finished_at is None:
+            self._training_finished_at = time.monotonic()
+        self.set_training_progress(phase=phase)
+        if self._gui is not None and not self._gui.closed:
+            self._gui.finish_training()
 
     def get_training_timing(self):
         """Return elapsed seconds and the mean for fully completed episodes."""

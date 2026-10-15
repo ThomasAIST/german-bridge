@@ -110,7 +110,8 @@ class CollectionTests(unittest.TestCase):
                 env.game_over, env.agent_position, env.scores = True, seat, scores
                 env._record_episode_result()
                 self.assertEqual(env.episode_history[-1], {
-                    "episode": episode, "score": scores[seat], "rank": expected_rank})
+                    "episode": episode, "score": scores[seat], "rank": expected_rank,
+                    "reward": None})
                 env._record_episode_result()  # Repeated refreshes must not duplicate results.
                 self.assertEqual(len(env.episode_history), len(previous) + 1)
                 self.assertEqual(env.episode_history[:-1], previous)
@@ -179,7 +180,9 @@ class CollectionTests(unittest.TestCase):
         import gymnasium as gym
 
         notebook = json.loads(Path(__file__).with_name("train.ipynb").read_text(encoding="utf-8"))
-        source = ast.parse("".join(notebook["cells"][-1]["source"]))
+        training_cell = next(cell for cell in notebook["cells"]
+                             if "".join(cell.get("source", [])).startswith("episode ="))
+        source = ast.parse("".join(training_cell["source"]))
         assignments = {node.targets[0].id: node for node in source.body
                        if isinstance(node, ast.Assign) and isinstance(node.targets[0], ast.Name)}
         settings = next(cell for cell in notebook["cells"] if cell["cell_type"] == "code")
@@ -219,6 +222,35 @@ class ObserverTests(unittest.TestCase):
 
     def tearDown(self):
         self.env.close()
+
+    def test_training_completion_keeps_window_open_and_freezes_clock(self):
+        with patch("germanbridgegameenv.time.monotonic", return_value=100.0) as clock:
+            self.env.start_training_timer()
+            clock.return_value = 150.0
+            self.env.finish_training()
+            self.assertFalse(self.gui.closed)
+            self.assertTrue(self.root.winfo_exists())
+            self.assertEqual(self.gui.status.cget("text"), "TRAINING COMPLETE")
+            self.assertEqual(str(self.gui.pause_button.cget("state")), "disabled")
+            clock.return_value = 200.0
+            self.gui._update_timing()
+            self.assertIn("00:00:50", self.gui.timing.cget("text"))
+            self.gui.tabs.select(2)
+            self.root.update()
+            self.assertEqual(self.gui.tabs.tab(self.gui.tabs.select(), "text"), "Episode reward")
+
+    def test_reward_chart_preserves_collected_return_before_updates(self):
+        self.env.game_over = True
+        self.env._record_episode_result()
+        self.env.record_episode_reward(-7.5)
+        self.assertEqual(self.env.episode_history[-1]["reward"], -7.5)
+        self.assertEqual(self.env._completed_training_episodes, 0)
+        self.gui.refresh()
+        self.assertEqual(len(self.gui.reward_chart.find_withtag("history-point")), 1)
+        self.env.episode_history.append({"episode": 2, "score": 0, "rank": 2, "reward": 4.5})
+        self.gui.refresh()
+        points = self.gui.reward_chart.coords(self.gui.reward_chart.find_withtag("history-line")[0])
+        self.assertLess(points[3], points[1])  # Higher reward appears higher on screen.
 
     def test_training_counters_and_live_updates_while_paused(self):
         with patch("germanbridgegameenv.time.monotonic", return_value=100.0) as clock:
@@ -283,19 +315,19 @@ class ObserverTests(unittest.TestCase):
 
     def test_history_charts_handle_empty_single_and_constant_results(self):
         self.gui.refresh()
-        for chart in (self.gui.score_chart, self.gui.rank_chart):
+        for chart in (self.gui.score_chart, self.gui.rank_chart, self.gui.reward_chart):
             self.assertFalse(chart.find_withtag("history-line"))
             texts = [chart.itemcget(item, "text") for item in chart.find_all()
                      if chart.type(item) == "text"]
             self.assertIn("Complete an episode to see its result.", texts)
-        self.env.episode_history.append({"episode": 1, "score": 0, "rank": 1})
+        self.env.episode_history.append({"episode": 1, "score": 0, "rank": 1, "reward": 0.0})
         self.gui.refresh()
-        for chart in (self.gui.score_chart, self.gui.rank_chart):
+        for chart in (self.gui.score_chart, self.gui.rank_chart, self.gui.reward_chart):
             self.assertEqual(len(chart.find_withtag("history-point")), 1)
             self.assertFalse(chart.find_withtag("history-line"))
-        self.env.episode_history.append({"episode": 2, "score": 0, "rank": 1})
+        self.env.episode_history.append({"episode": 2, "score": 0, "rank": 1, "reward": 0.0})
         self.gui.refresh()
-        for chart in (self.gui.score_chart, self.gui.rank_chart):
+        for chart in (self.gui.score_chart, self.gui.rank_chart, self.gui.reward_chart):
             points = chart.coords(chart.find_withtag("history-line")[0])
             self.assertEqual(points[1], points[3])
             self.assertLess(points[0], points[2])

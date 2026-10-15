@@ -36,10 +36,11 @@ def main():
                 total_reward += reward
                 env.set_training_progress(steps=steps, episode_reward=total_reward,
                                           last_reward=reward)
+            env.record_episode_reward(total_reward)
             env.finish_training_episode()
         # Leave the final scores visible until the preview window is closed.
+        env.finish_training(phase="Preview complete")
         if env._gui is not None and not env._gui.closed:
-            env.set_training_progress(phase="Preview complete")
             env._gui.root.mainloop()
     finally:
         env.close()

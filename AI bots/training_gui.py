@@ -46,6 +46,8 @@ class GermanBridgeTrainingGUI:
         history_tab = tk.Frame(self.tabs, bg=self.BG)
         self.tabs.add(table_tab, text="Live game")
         self.tabs.add(history_tab, text="Episode history")
+        reward_tab = tk.Frame(self.tabs, bg=self.BG)
+        self.tabs.add(reward_tab, text="Episode reward")
         self.canvas = tk.Canvas(table_tab, bg=self.BG, highlightthickness=0)
         self.canvas.pack(fill="both", expand=True)
         self.canvas.bind("<Configure>", lambda event: self._draw_board())
@@ -55,6 +57,9 @@ class GermanBridgeTrainingGUI:
                                      highlightthickness=0)
         self.rank_chart = tk.Canvas(history_tab, bg=self.BG, height=260,
                                     highlightthickness=0)
+        self.reward_chart = tk.Canvas(reward_tab, bg=self.BG, highlightthickness=0)
+        self.reward_chart.pack(fill="both", expand=True, padx=8, pady=4)
+        self.reward_chart.bind("<Configure>", lambda event: self._draw_history_chart("reward"))
         for chart, key in ((self.score_chart, "score"), (self.rank_chart, "rank")):
             chart.pack(fill="both", expand=True, padx=8, pady=4)
             chart.bind("<Configure>", lambda event, key=key: self._draw_history_chart(key))
@@ -95,8 +100,9 @@ class GermanBridgeTrainingGUI:
                  orient="horizontal", variable=self.delay, command=self._set_delay,
                  bg=self.PANEL, fg=self.TEXT, highlightthickness=0,
                  troughcolor=self.BG).pack(fill="x", padx=14)
-        self._label(sidebar, "Closing this window continues training.", 9,
-                    color=self.MUTED).pack(anchor="w", padx=14, pady=(4, 12))
+        self.footer = self._label(sidebar, "Closing this window continues training.", 9,
+                                  color=self.MUTED)
+        self.footer.pack(anchor="w", padx=14, pady=(4, 12))
         self._timing_after_id = self.root.after(250, self._tick_timing)
 
     def _label(self, parent, text, size, bold=False, color=None):
@@ -113,6 +119,7 @@ class GermanBridgeTrainingGUI:
             self._draw_board()
             self._draw_history_chart("score")
             self._draw_history_chart("rank")
+            self._draw_history_chart("reward")
             progress = self.env.training_progress
             phase = progress["phase"].upper()
             self.status.configure(text=f"{'PAUSED | ' if self.paused else ''}{phase}")
@@ -165,22 +172,24 @@ class GermanBridgeTrainingGUI:
         """Draw an episode chart using Tk only; redraw on new results or resize."""
         if self.closed:
             return
-        canvas = self.score_chart if key == "score" else self.rank_chart
-        history = self.env.episode_history
+        canvas = {"score": self.score_chart, "rank": self.rank_chart,
+                  "reward": self.reward_chart}[key]
+        history = [result for result in self.env.episode_history if result.get(key) is not None]
         width, height = max(320, canvas.winfo_width()), max(220, canvas.winfo_height())
         version = (len(history), width, height)
         if self._chart_versions.get(key) == version:
             return
         self._chart_versions[key] = version
         canvas.delete("all")
-        color = self.ACCENT if key == "score" else "#65b89c"
+        color = {"score": self.ACCENT, "rank": "#65b89c", "reward": "#79b8ff"}[key]
 
         def label(x, y, text, anchor="nw", bold=False, tags=()):
             return canvas.create_text(x, y, text=text, anchor=anchor, fill=self.MUTED,
                                       font=("Segoe UI", 10, "bold" if bold else "normal"),
                                       tags=tags)
 
-        title = "AI final score by episode" if key == "score" else "AI rank by episode (1st at top)"
+        title = {"score": "AI final score by episode", "rank": "AI rank by episode (1st at top)",
+                 "reward": "AI episode reward by episode"}[key]
         label(14, 8, title, bold=True)
         left, right, top, bottom = 66, width - 24, 46, height - 44
         values = [result[key] for result in history]
@@ -232,7 +241,7 @@ class GermanBridgeTrainingGUI:
         for x, y in points if len(points) <= 40 else points[-1:]:
             canvas.create_oval(x - 3, y - 3, x + 3, y + 3, fill=color,
                                 outline=color, tags=("history-point",))
-        latest = f"{values[-1]:+d}" if key == "score" else f"#{values[-1]}"
+        latest = f"#{values[-1]}" if key == "rank" else f"{values[-1]:+g}"
         label(right, 8, f"Latest: {latest}", anchor="ne")
 
     def _wait_for_event(self):
@@ -264,6 +273,14 @@ class GermanBridgeTrainingGUI:
 
     def _set_delay(self, value):
         self.env.render_delay = float(value)
+
+    def finish_training(self):
+        self.paused = False
+        self._advance = False
+        self.pause_button.configure(state="disabled", text="Pause")
+        self.step_button.configure(state="disabled")
+        self.footer.configure(text="Close when finished inspecting results.")
+        self.refresh(wait=False)
 
     def close(self):
         if self.closed:

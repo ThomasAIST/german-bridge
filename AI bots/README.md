@@ -21,6 +21,24 @@ at the bottom. Equal scores share a rank. History updates automatically when a
 game finishes and remains across episode resets within the same environment;
 creating a new training environment starts a new history. Incomplete episodes
 are not plotted. The charts use Tkinter and need no additional plotting package.
+The **Episode reward** tab shows the sum of rewards collected in each episode.
+Rewards are retained as soon as collection finishes, including if model updates
+are interrupted afterward.
+
+Training completion freezes the elapsed timer and leaves the GUI open. The
+notebook enables IPython's Tk event integration so tabs remain responsive while
+you run other cells. Close the window manually when finished inspecting it.
+
+The final **Save model parameters and charts** cell creates a unique folder
+under `training_runs` (relative to the notebook's working directory). It saves
+`actor_state_dict.pt`, `critic_state_dict.pt`, `score_history.png`,
+`rank_history.png`, `reward_history.png`, `episode_history.csv`, and
+`run_metadata.json`. The rank image also places first at the top. Each save
+creates a separate folder; weights load with `model.load_state_dict(torch.load(
+path, map_location='cpu', weights_only=True))` after constructing the same model.
+Saving also works with `show_gui = False` or after the viewer is closed.
+PNG export uses Pillow, which is already installed in the `german_bridge`
+environment; dependencies are listed in `requirements.txt`.
 
 - **Pause / Resume** holds collection at the current game event.
 - **Next event** advances one event while paused (a bid, play, result, or turn).
@@ -55,5 +73,36 @@ match its declared observation spaces.
 Verification:
 
 ```powershell
-conda run -n german_bridge python -m unittest discover -s "AI bots" -p "test_training_gui.py"
+conda run -n german_bridge python -m unittest discover -s "AI bots" -p "test_training*.py"
 ```
+
+## Profiling the notebook's training loop
+
+`profile_train.py` loads the notebook's actual model definitions and `train()`
+function, then profiles only the training call using the built-in `cProfile`.
+It does not execute the notebook's 1000-episode training cell or save models.
+
+```powershell
+conda run -n german_bridge python "AI bots/profile_train.py" --episodes 1 --epochs 1 --threads 1
+```
+
+Each run creates a folder under `AI bots/profiling_runs` with `train.prof`,
+`report.txt`, `functions.csv`, and `run.json`. The report lists the slowest
+functions by cumulative time (including callees) and self time. Partial results
+are saved if training raises an exception or you interrupt with Ctrl+C.
+
+Use `--episodes`, `--epochs`, `--batch-size`, `--device cpu|cuda|auto`, and
+`--output-dir` to adjust the run; other training hyperparameters come from the
+notebook. The GUI is off by default; `--gui --render-delay 0.25` includes its
+overhead. The standalone profiler closes its viewer when profiling finishes.
+CPU is the default because cProfile measures Python/CPU calls, not individual
+asynchronous CUDA kernels. `--threads` is optional and changes the CPU workload,
+so use the same thread count when comparing runs.
+
+Reopen the raw profile with the same environment:
+
+```powershell
+conda run -n german_bridge python -m pstats "AI bots/profiling_runs/RUN_FOLDER/train.prof"
+```
+
+At the pstats prompt, enter `sort cumulative` followed by `stats 30`.
