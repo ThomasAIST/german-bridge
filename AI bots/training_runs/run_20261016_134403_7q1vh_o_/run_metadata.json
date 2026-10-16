@@ -1,0 +1,21 @@
+{
+  "saved_at": "2026-10-16T13:44:03.780284+08:00",
+  "phase": "Training complete",
+  "episodes_with_results": 1000,
+  "training_episodes_completed": 1000,
+  "elapsed_seconds": 2215.093999999999,
+  "average_episode_seconds": 2.2150939999999992,
+  "actor_class": "Actor",
+  "critic_class": "Critic",
+  "config": {
+    "episodes_requested": 1000,
+    "epochs_per_episode": 5,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "gamma": 0.99,
+    "epsilon": 0.2,
+    "entropy_coefficient": 0.01,
+    "show_gui": false,
+    "charts_only": false
+  }
+}

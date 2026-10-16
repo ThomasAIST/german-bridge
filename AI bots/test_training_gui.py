@@ -1,12 +1,14 @@
 """Regression checks for collection state and observer controls."""
 
 import ast
+import contextlib
+import io
 import json
 from pathlib import Path
 import random
 import tkinter as tk
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from germanbridgegameenv import GermanBridgeGameEnv
 from player import AIBot, ComputerBot
@@ -24,6 +26,71 @@ def random_action(env, state):
 
 
 class CollectionTests(unittest.TestCase):
+    def test_charts_only_throttles_updates_and_skips_game_events(self):
+        env = GermanBridgeGameEnv(render_mode="human", render_delay=60, charts_only=True)
+        env._gui = Mock(closed=False)
+        with patch("germanbridgegameenv.time.monotonic", return_value=100.0) as clock:
+            env.render()
+            env._gui.refresh.assert_called_once_with(wait=False)
+            env.set_training_progress(steps=1)
+            clock.return_value = 100.1
+            env.set_training_progress(steps=2)
+            self.assertEqual(env._gui.refresh.call_count, 1)
+            env._render_event("A card was played")
+            self.assertFalse(env.recent_events)
+            self.assertEqual(env._gui.refresh.call_count, 1)
+            clock.return_value = 100.26
+            env.set_training_progress(steps=3)
+            self.assertEqual(env._gui.refresh.call_count, 2)
+            clock.return_value = 100.27
+            env._refresh_gui_progress(force=True)
+            self.assertEqual(env._gui.refresh.call_count, 3)
+        env.close()
+
+    def test_terminal_timing_with_gui_disabled(self):
+        env = GermanBridgeGameEnv()
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            with patch("germanbridgegameenv.time.monotonic", return_value=100.0) as clock:
+                env.start_training_timer()
+                clock.return_value = 110.0
+                env.finish_training_episode()
+                clock.return_value = 115.0
+                env.finish_training()
+        text = output.getvalue()
+        self.assertEqual(text.count("\x1b[2K"), 6)
+        self.assertEqual(text.count("\x1b[2A"), 1)
+        self.assertEqual(text.count("\n"), 5)  # Two row separators per update, one final newline.
+        self.assertIn("Avg episode: 10.00 s", text)
+        self.assertIn("Total elapsed: 00:00:10 (10.00 s)", text)
+        self.assertIn("Total elapsed: 00:00:15 (15.00 s)", text)
+        self.assertIsNone(env._gui)
+        env.close()
+
+    def test_terminal_status_is_throttled_and_tracks_phase_changes(self):
+        env = GermanBridgeGameEnv()
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            with patch("germanbridgegameenv.time.monotonic", return_value=100.0) as clock:
+                env.start_training_timer()
+                env.set_training_progress(episode=1, total_episodes=2, steps=0)
+                clock.return_value = 100.1
+                env.set_training_progress(steps=1)
+                self.assertEqual(output.getvalue().count("\x1b[2K"), 3)
+                clock.return_value = 100.26
+                env.set_training_progress(steps=2)
+                self.assertEqual(output.getvalue().count("\x1b[2K"), 6)
+                clock.return_value = 100.27
+                env.set_training_progress(phase="Model update 1/5")
+                self.assertEqual(output.getvalue().count("\x1b[2K"), 9)
+                self.assertFalse(output.getvalue().endswith("\n"))
+                env.finish_training(phase="Training stopped")
+                self.assertEqual(output.getvalue().count("\n"), 9)
+                env.close()
+                self.assertEqual(output.getvalue().count("\n"), 9)
+        self.assertIn("Model update 1/5", output.getvalue())
+        self.assertIn("Training stopped", output.getvalue())
+
     def test_full_games_and_episode_reset(self):
         env = GermanBridgeGameEnv()
         seats = set()
@@ -190,23 +257,26 @@ class CollectionTests(unittest.TestCase):
         namespace = {}
         exec(compile("".join(settings["source"]), "train.ipynb", "exec"), namespace)
         self.assertIs(namespace["show_gui"], True)
+        self.assertIs(namespace["charts_only"], True)
         self.assertNotIn("show_gui", assignments)
         create_env = compile(ast.Module(body=[assignments["env"]], type_ignores=[]),
                              "train.ipynb", "exec")
         with patch.dict(gym.envs.registry):
             gym.register(id="GermanBridgeGameEnv-v0", entry_point=GermanBridgeGameEnv)
             for enabled in (True, False):
-                namespace.update(gym=gym, show_gui=enabled)
-                exec(create_env, namespace)
-                env = namespace["env"]
-                try:
-                    self.assertEqual(env.render_mode, "human" if enabled else None)
-                    if not enabled:
-                        env.reset()
-                        env.render()
-                        self.assertIsNone(env.unwrapped._gui)
-                finally:
-                    env.close()
+                for charts_only in (True, False):
+                    namespace.update(gym=gym, show_gui=enabled, charts_only=charts_only)
+                    exec(create_env, namespace)
+                    env = namespace["env"]
+                    try:
+                        self.assertEqual(env.render_mode, "human" if enabled else None)
+                        self.assertEqual(env.unwrapped.charts_only, charts_only)
+                        if not enabled:
+                            env.reset()
+                            env.render()
+                            self.assertIsNone(env.unwrapped._gui)
+                    finally:
+                        env.close()
 
 
 class ObserverTests(unittest.TestCase):
@@ -377,6 +447,42 @@ class ObserverTests(unittest.TestCase):
         self.assertIs(self.env._gui, self.gui)  # The observer must not reopen.
         state, _ = self.env.reset()
         self.env.step(random_action(self.env, state))  # Collection still runs.
+
+
+class ChartsOnlyObserverTests(unittest.TestCase):
+    def test_charts_update_without_drawing_gameplay_or_waiting(self):
+        root = tk.Tk()
+        root.withdraw()
+        env = GermanBridgeGameEnv(render_delay=60, charts_only=True)
+        env.reset()
+        gui = GermanBridgeTrainingGUI(env, root=root)
+        env._gui, env.render_mode = gui, "human"
+        try:
+            with patch.object(gui, "_draw_board", side_effect=AssertionError("gameplay drawn")):
+                with patch.object(gui, "_wait_for_event", side_effect=AssertionError("playback delay")):
+                    env.start_training_timer()
+                    state, _ = env.reset()
+                    done, total_reward, steps = False, 0, 0
+                    while not done:
+                        state, reward, done, _, _ = env.step(random_action(env, state))
+                        total_reward += reward
+                        steps += 1
+                        env.set_training_progress(steps=steps, episode_reward=total_reward)
+                    env.record_episode_reward(total_reward)
+                    env.finish_training_episode()
+                    gui.refresh(wait=True)
+                    env.finish_training()
+            self.assertEqual([gui.tabs.tab(tab, "text") for tab in gui.tabs.tabs()],
+                             ["Episode history", "Episode reward"])
+            self.assertFalse(gui.canvas.find_all())
+            self.assertEqual(len(gui.score_chart.find_withtag("history-point")), 1)
+            self.assertEqual(len(gui.rank_chart.find_withtag("history-point")), 1)
+            self.assertEqual(len(gui.reward_chart.find_withtag("history-point")), 1)
+            self.assertEqual(len(env.episode_history), 1)
+            self.assertEqual(env.episode_history[-1]["reward"], total_reward)
+            self.assertFalse(gui.closed)
+        finally:
+            env.close()
 
 
 if __name__ == "__main__":

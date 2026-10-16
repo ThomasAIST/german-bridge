@@ -13,12 +13,14 @@ from player import AIBot, ComputerBot
 class GermanBridgeGameEnv(gym.Env):
     metadata = {"render_modes": ["human"]}
 
-    def __init__(self, render_mode=None, render_delay=1.0):
+    def __init__(self, render_mode=None, render_delay=1.0, charts_only=False):
         super().__init__()
         if render_mode not in (None, "human"):
             raise ValueError("render_mode must be None or 'human'")
         self.render_mode = render_mode
         self.render_delay = max(0.0, float(render_delay))
+        self.charts_only = bool(charts_only)
+        self._last_gui_update = None
         self._gui = None
         self._viewer_closed = False
         self.recent_events = deque(maxlen=10)
@@ -28,6 +30,8 @@ class GermanBridgeGameEnv(gym.Env):
         self._training_finished_at = None
         self._last_episode_finished_at = None
         self._completed_training_episodes = 0
+        self._terminal_status = None
+        self._last_terminal_update = None
         self.training_progress = {"phase": "Data collection", "episode": None,
                                   "total_episodes": None, "steps": 0,
                                   "episode_reward": 0.0, "last_reward": None}
@@ -173,6 +177,10 @@ class GermanBridgeGameEnv(gym.Env):
             #     'fixed_suit': play_result['fixed_suit']
             # }
             assert(play_result is not None, "Playing round did return an observation.")
+
+            num_triumph_cards = sum(1 for card in self.played_cards if card // 13 == self.triumph_suit)
+            reward = 0.5 if max(0, num_triumph_cards-2) <= action <= min(self.round, num_triumph_cards+2) else -0.5  # Reward for bidding close to the number of triumph cards played
+
             return play_result, 0, self.game_over, False, {}  # Return the observation for the agent's turn to play a card
             # for i in range(4):
             #     if self.current_player == self.agent_position:
@@ -236,7 +244,7 @@ class GermanBridgeGameEnv(gym.Env):
                     self.game_over = True  # Set the game over flag to True if all rounds are completed
                     self._record_episode_result()
                     self._render_event("Game complete.")
-                    reward = 1 if self.scores[self.agent_position] >= max(self.scores) else -1  # Reward the agent for winning the game
+                    reward = 1 if self.scores[self.agent_position] >= max(150, max(self.scores)) else -1  # Reward the agent for winning the game
                     return self.get_observation(), reward, True, False, {}  # Return the final observation and done flag
                 else:
                     self._deal_round(self.round)  # Deal a new round of cards to each player
@@ -247,10 +255,12 @@ class GermanBridgeGameEnv(gym.Env):
                     self._render_event(f"Round {self.round}: dealt {self.round} card(s) each.")
                     bid_result = self._bid_round()  # Conduct a bidding round where each player makes a bid
                     # print('debug', bid_result, self.get_observation())
-                    return bid_result, reward, self.game_over, False, {}  # Return the observation for the agent's turn to bid
+                    return bid_result, self.scores[self.agent_position]/949, self.game_over, False, {}  # Return the observation for the agent's turn to bid
             else:
                 play_result = self._play_round()  # Conduct a playing round where each player plays a card
-                return play_result, reward, self.game_over, False, {}  # Return the observation
+                num_triumph_cards = sum(1 for card in self.played_cards if card // 13 == self.triumph_suit)
+                reward = 0.5 if max(0, num_triumph_cards-2) <= action <= min(self.round, num_triumph_cards+2) else -0.5  # Reward for bidding close to the number of triumph cards played
+                return play_result, 0, self.game_over, False, {}  # Return the observation
         assert(True), "Step function did not return an observation."
 
     def _record_episode_result(self):
@@ -274,22 +284,43 @@ class GermanBridgeGameEnv(gym.Env):
             from training_gui import GermanBridgeTrainingGUI
             self._gui = GermanBridgeTrainingGUI(self)
         if not self._gui.closed:
-            self._gui.refresh(wait=True)
+            self._gui.refresh(wait=not self.charts_only)
+            self._last_gui_update = time.monotonic()
+
+    def _refresh_gui_progress(self, force=False):
+        if self.render_mode != "human" or self._viewer_closed:
+            return
+        if self.charts_only:
+            # Service the charts at most four times per second during collection.
+            # Episode completion bypasses this throttle so results appear immediately.
+            if (not force and self._gui is not None and self._last_gui_update is not None
+                    and time.monotonic() - self._last_gui_update < 0.25):
+                return
+            self.render()
+        elif self._gui is not None and not self._gui.closed:
+            self._gui.refresh(wait=False)
 
     def set_training_progress(self, *, episode=None, total_episodes=None,
                               phase=None, steps=None, episode_reward=None,
                               last_reward=None):
         """Update collection metrics without adding an animation delay."""
+        phase_changed = phase is not None and phase != self.training_progress["phase"]
+        episode_changed = episode is not None and episode != self.training_progress["episode"]
         updates = {"episode": episode, "total_episodes": total_episodes,
                    "phase": phase, "steps": steps,
                    "episode_reward": episode_reward, "last_reward": last_reward}
         self.training_progress.update({key: value for key, value in updates.items()
                                        if value is not None})
-        if self._gui is not None and not self._gui.closed:
-            self._gui.refresh(wait=False)
+        self._refresh_gui_progress()
+        if self._training_started_at is not None and self._training_finished_at is None:
+            self.print_training_timing(force=phase_changed or episode_changed)
 
     def start_training_timer(self):
         """Start a new run's wall clock, including collection and model updates."""
+        if self._terminal_status is not None:
+            self._terminal_status.finish()
+        self._terminal_status = None
+        self._last_terminal_update = None
         self._training_started_at = time.monotonic()
         self._training_finished_at = None
         self._last_episode_finished_at = None
@@ -303,12 +334,15 @@ class GermanBridgeGameEnv(gym.Env):
         self._completed_training_episodes += 1
         if self.game_over and self._episode_result_recorded:
             self.episode_history[-1]["reward"] = float(self.training_progress["episode_reward"])
-        self.set_training_progress()
+        self.training_progress["phase"] = "Episode complete"
+        self._refresh_gui_progress(force=True)
+        self.print_training_timing()
 
     def record_episode_reward(self, reward):
         """Preserve the collected return even if model updates are interrupted."""
         if self.game_over and self._episode_result_recorded:
             self.episode_history[-1]["reward"] = float(reward)
+            self._refresh_gui_progress(force=True)
 
     def finish_training(self, phase="Training complete"):
         """Stop timing but leave the observer available for inspection and saving."""
@@ -317,6 +351,34 @@ class GermanBridgeGameEnv(gym.Env):
         self.set_training_progress(phase=phase)
         if self._gui is not None and not self._gui.closed:
             self._gui.finish_training()
+        self.print_training_timing(final=True)
+
+    def print_training_timing(self, force=True, final=False):
+        """Replace one status display, including when no GUI is enabled."""
+        now = time.monotonic()
+        if not force and self._last_terminal_update is not None and now - self._last_terminal_update < 0.25:
+            return
+        elapsed, average = self.get_training_timing()
+        hours, remainder = divmod(int(elapsed), 3600)
+        minutes, seconds = divmod(remainder, 60)
+        average_text = "--" if average is None else f"{average:.2f} s"
+        progress = self.training_progress
+        episode = progress["episode"] or self._completed_training_episodes or "-"
+        total = f"/{progress['total_episodes']}" if progress["total_episodes"] is not None else ""
+        phase = progress["phase"]
+        if phase == "Data collection":
+            phase = f"Collecting {progress['steps']}/104"
+        last_reward = "--" if progress["last_reward"] is None else f"{progress['last_reward']:+.2f}"
+        message = (f"Episode {episode}{total} | {phase}\n"
+                   f"Samples: {progress['steps']}/104 | Episode reward: {progress['episode_reward']:+.2f} | "
+                   f"Last reward: {last_reward}\n"
+                   f"Avg episode: {average_text} | "
+                   f"Total elapsed: {hours:02d}:{minutes:02d}:{seconds:02d} ({elapsed:.2f} s)")
+        if self._terminal_status is None:
+            from training_status import TrainingStatus
+            self._terminal_status = TrainingStatus()
+        self._terminal_status.update(message, final=final)
+        self._last_terminal_update = now
 
     def get_training_timing(self):
         """Return elapsed seconds and the mean for fully completed episodes."""
@@ -337,6 +399,8 @@ class GermanBridgeGameEnv(gym.Env):
             self._gui.delay.set(self.render_delay)
 
     def close(self):
+        if self._terminal_status is not None:
+            self._terminal_status.finish()
         if self._training_started_at is not None and self._training_finished_at is None:
             self._training_finished_at = time.monotonic()
         self._viewer_closed = True
@@ -344,7 +408,7 @@ class GermanBridgeGameEnv(gym.Env):
             self._gui.close()
 
     def _render_event(self, message=None):
-        if self.render_mode == "human":
+        if self.render_mode == "human" and not self.charts_only:
             if message:
                 self.recent_events.append(message)
             self.render()

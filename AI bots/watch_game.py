@@ -10,8 +10,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--episodes", type=int, default=1)
     parser.add_argument("--delay", type=float, default=0.25)
+    parser.add_argument("--charts-only", action="store_true")
     args = parser.parse_args()
-    env = GermanBridgeGameEnv(render_mode="human", render_delay=args.delay)
+    env = GermanBridgeGameEnv(render_mode="human", render_delay=args.delay,
+                              charts_only=args.charts_only)
     try:
         env.start_training_timer()
         for episode in range(1, args.episodes + 1):

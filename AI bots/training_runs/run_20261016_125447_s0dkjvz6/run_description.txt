@@ -1,0 +1,1 @@
+I deliberately try to make every reward to 0 except the last one. The last reward is either +1/-1 if the agent wins the game with 150 or more marks.

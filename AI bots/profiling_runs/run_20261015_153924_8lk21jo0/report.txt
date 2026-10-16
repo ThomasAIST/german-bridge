@@ -1,0 +1,82 @@
+cumtime: function plus callees; tottime: function itself.
+CUDA kernels run asynchronously; these are Python/CPU call timings.
+
+=== Top functions by cumulative time ===
+         674268 function calls (618328 primitive calls) in 1.850 seconds
+
+   Ordered by: cumulative time
+   List reduced from 675 to 30 due to restriction <30>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.026    0.026    1.850    1.850 train.ipynb::cell_22:1(train)
+26536/248    0.020    0.000    1.187    0.005 module.py:1779(_wrapped_call_impl)
+26536/248    0.032    0.000    1.187    0.005 module.py:1787(_call_impl)
+      992    0.023    0.000    0.963    0.001 train.ipynb::cell_5:11(forward)
+      992    0.010    0.000    0.906    0.001 transformer.py:409(forward)
+     1984    0.026    0.000    0.881    0.000 transformer.py:799(forward)
+      248    0.006    0.000    0.829    0.003 train.ipynb::cell_7:11(forward)
+      124    0.024    0.000    0.605    0.005 train.ipynb::cell_10:21(forward)
+      124    0.001    0.000    0.580    0.005 train.ipynb::cell_11:36(forward)
+     1984    0.006    0.000    0.547    0.000 transformer.py:961(_sa_block)
+     1984    0.020    0.000    0.477    0.000 activation.py:1256(forward)
+     1984    0.028    0.000    0.441    0.000 functional.py:6664(multi_head_attention_forward)
+       40    0.000    0.000    0.300    0.008 _tensor.py:566(backward)
+       40    0.001    0.000    0.300    0.008 __init__.py:255(backward)
+       40    0.001    0.000    0.298    0.007 graph.py:1059(_engine_run_backward)
+       40    0.297    0.007    0.297    0.007 {method 'run_backward' of 'torch._C._EngineBase' objects}
+     1984    0.008    0.000    0.246    0.000 transformer.py:980(_ff_block)
+       40    0.001    0.000    0.244    0.006 optimizer.py:528(wrapper)
+       40    0.001    0.000    0.239    0.006 optimizer.py:59(_use_grad)
+       40    0.000    0.000    0.238    0.006 adam.py:214(step)
+     1984    0.198    0.000    0.198    0.000 {built-in method torch._C._nn.scaled_dot_product_attention}
+    11532    0.184    0.000    0.184    0.000 {built-in method torch._C._nn.linear}
+     5952    0.003    0.000    0.178    0.000 dropout.py:69(forward)
+     5952    0.011    0.000    0.176    0.000 functional.py:1473(dropout)
+     5952    0.161    0.000    0.161    0.000 {built-in method torch.dropout}
+       40    0.000    0.000    0.150    0.004 optimizer.py:140(maybe_fallback)
+       40    0.000    0.000    0.150    0.004 adam.py:902(adam)
+       40    0.045    0.001    0.148    0.004 adam.py:347(_single_tensor_adam)
+     7564    0.009    0.000    0.128    0.000 linear.py:130(forward)
+     1984    0.018    0.000    0.103    0.000 functional.py:6217(_in_projection_packed)
+
+
+
+=== Top functions by self time ===
+         674268 function calls (618328 primitive calls) in 1.850 seconds
+
+   Ordered by: internal time
+   List reduced from 675 to 30 due to restriction <30>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+       40    0.297    0.007    0.297    0.007 {method 'run_backward' of 'torch._C._EngineBase' objects}
+     1984    0.198    0.000    0.198    0.000 {built-in method torch._C._nn.scaled_dot_product_attention}
+    11532    0.184    0.000    0.184    0.000 {built-in method torch._C._nn.linear}
+     5952    0.161    0.000    0.161    0.000 {built-in method torch.dropout}
+       40    0.067    0.002    0.067    0.002 {built-in method torch._C._accelerator_getStream}
+      248    0.064    0.000    0.064    0.000 {built-in method torch.lstm}
+       40    0.045    0.001    0.148    0.004 adam.py:347(_single_tensor_adam)
+     3968    0.032    0.000    0.032    0.000 {built-in method torch.layer_norm}
+26536/248    0.032    0.000    1.187    0.005 module.py:1787(_call_impl)
+     1984    0.028    0.000    0.441    0.000 functional.py:6664(multi_head_attention_forward)
+        1    0.026    0.026    1.850    1.850 train.ipynb::cell_22:1(train)
+     1984    0.026    0.000    0.881    0.000 transformer.py:799(forward)
+    17856    0.025    0.000    0.025    0.000 {method 'view' of 'torch._C.TensorBase' objects}
+      124    0.024    0.000    0.605    0.005 train.ipynb::cell_10:21(forward)
+      992    0.023    0.000    0.963    0.001 train.ipynb::cell_5:11(forward)
+    68448    0.023    0.000    0.023    0.000 module.py:1959(__getattr__)
+     4176    0.021    0.000    0.021    0.000 {method 'reshape' of 'torch._C.TensorBase' objects}
+    11904    0.020    0.000    0.020    0.000 {method 'transpose' of 'torch._C.TensorBase' objects}
+     1984    0.020    0.000    0.477    0.000 activation.py:1256(forward)
+     3596    0.020    0.000    0.020    0.000 {built-in method torch.relu}
+26536/248    0.020    0.000    1.187    0.005 module.py:1779(_wrapped_call_impl)
+     5160    0.019    0.000    0.019    0.000 {method 'lerp_' of 'torch._C.TensorBase' objects}
+     5160    0.018    0.000    0.018    0.000 {method 'sqrt' of 'torch._C.TensorBase' objects}
+     5160    0.018    0.000    0.018    0.000 {method 'mul_' of 'torch._C.TensorBase' objects}
+     1984    0.018    0.000    0.103    0.000 functional.py:6217(_in_projection_packed)
+     5160    0.015    0.000    0.015    0.000 {method 'addcdiv_' of 'torch._C.TensorBase' objects}
+     1984    0.014    0.000    0.014    0.000 {method 'contiguous' of 'torch._C.TensorBase' objects}
+     1796    0.014    0.000    0.014    0.000 {method 'sum' of 'torch._C.TensorBase' objects}
+     5160    0.013    0.000    0.013    0.000 {method 'add_' of 'torch._C.TensorBase' objects}
+     5952    0.011    0.000    0.176    0.000 functional.py:1473(dropout)
+
+

@@ -1,0 +1,42 @@
+cumtime: function plus callees; tottime: function itself.
+CUDA kernels run asynchronously; these are Python/CPU call timings.
+
+=== Top functions by cumulative time ===
+         462553 function calls (414101 primitive calls) in 1.247 seconds
+
+   Ordered by: cumulative time
+   List reduced from 689 to 10 due to restriction <10>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.034    0.034    1.247    1.247 profile_train.py:177(<lambda>)
+        1    0.023    0.023    1.213    1.213 train.ipynb::cell_22:1(train)
+23112/216    0.018    0.000    0.910    0.004 module.py:1779(_wrapped_call_impl)
+23112/216    0.030    0.000    0.910    0.004 module.py:1787(_call_impl)
+      864    0.020    0.000    0.724    0.001 train.ipynb::cell_5:11(forward)
+      864    0.009    0.000    0.675    0.001 transformer.py:409(forward)
+     1728    0.022    0.000    0.652    0.000 transformer.py:799(forward)
+      216    0.006    0.000    0.646    0.003 train.ipynb::cell_7:11(forward)
+      108    0.010    0.000    0.466    0.004 train.ipynb::cell_10:21(forward)
+      108    0.001    0.000    0.443    0.004 train.ipynb::cell_11:36(forward)
+
+
+
+=== Top functions by self time ===
+         462553 function calls (414101 primitive calls) in 1.247 seconds
+
+   Ordered by: internal time
+   List reduced from 689 to 10 due to restriction <10>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+    10044    0.139    0.000    0.139    0.000 {built-in method torch._C._nn.linear}
+     1728    0.135    0.000    0.135    0.000 {built-in method torch._C._nn.scaled_dot_product_attention}
+        8    0.089    0.011    0.089    0.011 {method 'run_backward' of 'torch._C._EngineBase' objects}
+     5184    0.077    0.000    0.077    0.000 {built-in method torch.dropout}
+        8    0.077    0.010    0.077    0.010 {built-in method torch._C._accelerator_getStream}
+      216    0.062    0.000    0.062    0.000 {built-in method torch.lstm}
+        1    0.034    0.034    1.247    1.247 profile_train.py:177(<lambda>)
+23112/216    0.030    0.000    0.910    0.004 module.py:1787(_call_impl)
+     3456    0.026    0.000    0.026    0.000 {built-in method torch.layer_norm}
+     1728    0.026    0.000    0.339    0.000 functional.py:6664(multi_head_attention_forward)
+
+

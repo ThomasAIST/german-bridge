@@ -4,6 +4,13 @@ Run `train.ipynb` using the `german_bridge` Python kernel. The **GUI settings**
 section at the very top contains `show_gui = True`. Re-run the settings, imports,
 `train` function, and final cell after updating the files (or restart the kernel).
 
+The same settings cell also contains `charts_only = True`, the default for fast
+training with charts. With `show_gui = True`, this displays score, rank, and
+reward charts plus training metrics, without rendering the game or adding
+playback delays. Routine progress updates are limited to four per second;
+episode results refresh immediately. Set `charts_only = False` for the full
+game viewer. `show_gui = False` disables both GUI modes.
+
 The window shows every player's hand, bid, tricks won, cumulative score, the
 current turn, trump suit, current and previous tricks, and a recent-action log.
 The sidebar shows the episode, collected samples, last reward, and episode reward.
@@ -13,6 +20,11 @@ collection, model updates, playback delays, and pauses. The average appears
 after the first episode's model updates finish and excludes the current
 unfinished episode. Counters persist across episode resets and restart for a
 new training run. The elapsed counter updates while the viewer is paused.
+Training information updates in place as a three-line block in notebooks and
+terminals: episode/phase; samples/rewards; average episode time/total elapsed
+time. It also works when the GUI is disabled. Updates are throttled to four per second during a phase, with
+immediate updates at phase changes and completion. The final status remains
+visible; a terminal adds a newline at the end so later output stays separate.
 One full game contains 104 agent decisions: 13 bids and 91 card plays.
 
 Open the **Episode history** tab to see the AI's final score and finishing rank
@@ -94,7 +106,8 @@ are saved if training raises an exception or you interrupt with Ctrl+C.
 Use `--episodes`, `--epochs`, `--batch-size`, `--device cpu|cuda|auto`, and
 `--output-dir` to adjust the run; other training hyperparameters come from the
 notebook. The GUI is off by default; `--gui --render-delay 0.25` includes its
-overhead. The standalone profiler closes its viewer when profiling finishes.
+overhead. Use `--charts-only` to profile the fast charts-only GUI. The standalone
+profiler closes its viewer when profiling finishes.
 CPU is the default because cProfile measures Python/CPU calls, not individual
 asynchronous CUDA kernels. `--threads` is optional and changes the CPU workload,
 so use the same thread count when comparing runs.

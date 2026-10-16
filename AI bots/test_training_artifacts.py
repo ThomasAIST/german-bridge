@@ -31,7 +31,8 @@ class ArtifactTests(unittest.TestCase):
             self.assertEqual(cell["id"], "save-training-artifacts")
             namespace = dict(actor_model=actor, critic_model=critic, env=env,
                              episode=2, epoch=1, learning_rate=0.001, batch_size=32,
-                             gamma=0.99, epsilon=0.2, entropy_coefficient=0.01, show_gui=False)
+                             gamma=0.99, epsilon=0.2, entropy_coefficient=0.01,
+                             show_gui=False, charts_only=True)
 
             def save_to_temporary(*args, **kwargs):
                 kwargs["output_root"] = temporary
@@ -61,6 +62,7 @@ class ArtifactTests(unittest.TestCase):
                 self.assertEqual(float(rows[-1]["reward"]), 7.5)
             metadata = json.loads((second / "run_metadata.json").read_text(encoding="utf-8"))
             self.assertIs(metadata["config"]["show_gui"], False)
+            self.assertIs(metadata["config"]["charts_only"], True)
             self.assertEqual(metadata["episodes_with_results"], 2)
 
     def test_empty_single_and_tied_rank_charts(self):

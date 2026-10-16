@@ -18,6 +18,7 @@ class GermanBridgeTrainingGUI:
 
     def __init__(self, env, root=None):
         self.env = env
+        self.charts_only = env.charts_only
         self.root = root if root is not None else tk.Tk()
         self.closed = False
         self.paused = False
@@ -32,7 +33,8 @@ class GermanBridgeTrainingGUI:
         header = tk.Frame(self.root, bg=self.BG)
         header.pack(fill="x", padx=18, pady=(14, 4))
         self._label(header, "GERMAN BRIDGE", 20, bold=True).pack(anchor="w")
-        self._label(header, "Training observer  |  All four hands are visible", 10,
+        subtitle = "Training results  |  Charts only" if self.charts_only else "Training observer  |  All four hands are visible"
+        self._label(header, subtitle, 10,
                     color=self.MUTED).pack(anchor="w")
 
         content = tk.Frame(self.root, bg=self.BG)
@@ -44,13 +46,15 @@ class GermanBridgeTrainingGUI:
         self.tabs.pack(side="left", fill="both", expand=True, padx=(0, 8))
         table_tab = tk.Frame(self.tabs, bg=self.BG)
         history_tab = tk.Frame(self.tabs, bg=self.BG)
-        self.tabs.add(table_tab, text="Live game")
+        if not self.charts_only:
+            self.tabs.add(table_tab, text="Live game")
         self.tabs.add(history_tab, text="Episode history")
         reward_tab = tk.Frame(self.tabs, bg=self.BG)
         self.tabs.add(reward_tab, text="Episode reward")
         self.canvas = tk.Canvas(table_tab, bg=self.BG, highlightthickness=0)
         self.canvas.pack(fill="both", expand=True)
-        self.canvas.bind("<Configure>", lambda event: self._draw_board())
+        if not self.charts_only:
+            self.canvas.bind("<Configure>", lambda event: self._draw_board())
         self._label(history_tab, "Completed episodes | Final game scores | Ties share a rank",
                     10, color=self.MUTED).pack(anchor="w", padx=14, pady=(10, 4))
         self.score_chart = tk.Canvas(history_tab, bg=self.BG, height=260,
@@ -76,17 +80,23 @@ class GermanBridgeTrainingGUI:
         self.progress = ttk.Progressbar(sidebar, maximum=104)
         self.progress.pack(fill="x", padx=14, pady=(10, 12))
 
-        self._label(sidebar, "SCORES", 11, bold=True).pack(anchor="w", padx=14)
-        self.scores = self._label(sidebar, "", 10)
+        game_info = tk.Frame(sidebar, bg=self.PANEL)
+        if not self.charts_only:
+            game_info.pack(fill="both", expand=True)
+        self._label(game_info, "SCORES", 11, bold=True).pack(anchor="w", padx=14)
+        self.scores = self._label(game_info, "", 10)
         self.scores.configure(justify="left")
         self.scores.pack(anchor="w", padx=14, pady=(4, 12))
-        self._label(sidebar, "RECENT ACTIONS", 11, bold=True).pack(anchor="w", padx=14)
-        self.log = tk.Text(sidebar, height=11, wrap="word", bg=self.PANEL,
+        self._label(game_info, "RECENT ACTIONS", 11, bold=True).pack(anchor="w", padx=14)
+        self.log = tk.Text(game_info, height=11, wrap="word", bg=self.PANEL,
                            fg=self.MUTED, font=("Segoe UI", 9), relief="flat",
                            state="disabled", takefocus=False)
         self.log.pack(fill="both", expand=True, padx=14, pady=(6, 10))
 
-        controls = tk.Frame(sidebar, bg=self.PANEL)
+        playback = tk.Frame(sidebar, bg=self.PANEL)
+        if not self.charts_only:
+            playback.pack(fill="x")
+        controls = tk.Frame(playback, bg=self.PANEL)
         controls.pack(fill="x", padx=14)
         self.pause_button = tk.Button(controls, text="Pause", command=self.toggle_pause)
         self.pause_button.pack(side="left", fill="x", expand=True)
@@ -94,9 +104,9 @@ class GermanBridgeTrainingGUI:
                                      state="disabled")
         self.step_button.pack(side="left", fill="x", expand=True, padx=(8, 0))
         self.delay = tk.DoubleVar(master=self.root, value=env.render_delay)
-        self._label(sidebar, "Seconds per event (0 = fastest)", 9,
+        self._label(playback, "Seconds per event (0 = fastest)", 9,
                     color=self.MUTED).pack(anchor="w", padx=14, pady=(10, 0))
-        tk.Scale(sidebar, from_=0, to=max(2, env.render_delay), resolution=0.05,
+        tk.Scale(playback, from_=0, to=max(2, env.render_delay), resolution=0.05,
                  orient="horizontal", variable=self.delay, command=self._set_delay,
                  bg=self.PANEL, fg=self.TEXT, highlightthickness=0,
                  troughcolor=self.BG).pack(fill="x", padx=14)
@@ -116,7 +126,8 @@ class GermanBridgeTrainingGUI:
             return
         try:
             self._update_timing()
-            self._draw_board()
+            if not self.charts_only:
+                self._draw_board()
             self._draw_history_chart("score")
             self._draw_history_chart("rank")
             self._draw_history_chart("reward")
@@ -135,21 +146,22 @@ class GermanBridgeTrainingGUI:
                 f"Episode reward: {progress['episode_reward']:+.2f}\n"
                 f"Last reward: {'-' if reward is None else f'{reward:+.2f}'}"))
             self.progress["value"] = progress["steps"]
-            order = sorted(range(len(self.env.players)),
-                           key=lambda seat: self.env.scores[seat], reverse=True)
-            self.scores.configure(text="\n".join(
-                f"{1 + sum(score > self.env.scores[seat] for score in self.env.scores)}.  "
-                f"P{seat}{' (AI)' if seat == self.env.agent_position else ''}"
-                f"     {self.env.scores[seat]:+d}"
-                for seat in order))
-            self.log.configure(state="normal")
-            self.log.delete("1.0", "end")
-            self.log.insert("end", "\n".join(self.env.recent_events))
-            self.log.see("end")
-            self.log.configure(state="disabled")
+            if not self.charts_only:
+                order = sorted(range(len(self.env.players)),
+                               key=lambda seat: self.env.scores[seat], reverse=True)
+                self.scores.configure(text="\n".join(
+                    f"{1 + sum(score > self.env.scores[seat] for score in self.env.scores)}.  "
+                    f"P{seat}{' (AI)' if seat == self.env.agent_position else ''}"
+                    f"     {self.env.scores[seat]:+d}"
+                    for seat in order))
+                self.log.configure(state="normal")
+                self.log.delete("1.0", "end")
+                self.log.insert("end", "\n".join(self.env.recent_events))
+                self.log.see("end")
+                self.log.configure(state="disabled")
             self.root.update_idletasks()
             self.root.update()
-            if wait and not self.closed:
+            if wait and not self.closed and not self.charts_only:
                 self._wait_for_event()
         except tk.TclError:
             # The window may be destroyed by WM_DELETE_WINDOW during update().
@@ -312,7 +324,7 @@ class GermanBridgeTrainingGUI:
                                 anchor=anchor, **kwargs)
 
     def _draw_board(self):
-        if self.closed:
+        if self.closed or self.charts_only:
             return
         env = self.env
         c = self.canvas

@@ -1,0 +1,1 @@
+This run uses +1/-1 to represent winning and losing the game. Only the last play of card in each round is given a reward (score/949, where 949 is highest achivable score in this game). This run removes all bonuses that do not reliably support winning hence the reward of other action are kept 0. 

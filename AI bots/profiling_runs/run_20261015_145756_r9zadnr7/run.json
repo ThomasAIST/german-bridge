@@ -1,0 +1,18 @@
+{
+  "notebook": "A:\\german-bridge\\AI bots\\train.ipynb",
+  "device": "cpu",
+  "episodes": 1,
+  "epochs": 1,
+  "batch_size": 32,
+  "learning_rate": 0.001,
+  "gamma": 0.99,
+  "epsilon": 0.2,
+  "entropy_coefficient": 0.01,
+  "gui": false,
+  "render_delay": 0.0,
+  "seed": 0,
+  "torch_threads": 1,
+  "status": "completed",
+  "error": null,
+  "wall_seconds": 1.1118387000005896
+}

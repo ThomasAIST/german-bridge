@@ -34,7 +34,8 @@ def load_notebook_training(notebook_path, device="cpu"):
     """Run setup cells through train's definition, never the training/save calls."""
     notebook_path = Path(notebook_path).resolve()
     notebook = json.loads(notebook_path.read_text(encoding="utf-8"))
-    namespace = {"__name__": "notebook_profile", "device": device, "show_gui": False}
+    namespace = {"__name__": "notebook_profile", "device": device,
+                 "show_gui": False, "charts_only": False}
     found_train = False
     sys.path.insert(0, str(notebook_path.parent))
     try:
@@ -66,7 +67,7 @@ def load_notebook_training(notebook_path, device="cpu"):
                         found_train = True
                         break
             exec(compile(ast.Module(body=nodes, type_ignores=[]), filename, "exec"), namespace)
-            namespace.update(show_gui=False, device=device)
+            namespace.update(show_gui=False, charts_only=False, device=device)
         if not found_train:
             raise ValueError(f"No train() definition found in {notebook_path}")
     finally:
@@ -139,11 +140,13 @@ def main(argv=None):
                         help="optional PyTorch CPU thread count")
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--gui", action="store_true", help="include GUI overhead in the profile")
+    parser.add_argument("--charts-only", action="store_true", help="enable the charts-only GUI")
     parser.add_argument("--render-delay", type=float, default=0.0)
     parser.add_argument("--top", type=positive_int, default=30)
     parser.add_argument("--output-dir", type=Path, default=folder / "profiling_runs",
                         help="parent folder for a new profiling run")
     args = parser.parse_args(argv)
+    args.gui = args.gui or args.charts_only
     if args.render_delay < 0:
         parser.error("--render-delay must be nonnegative")
 
@@ -161,7 +164,8 @@ def main(argv=None):
     namespace = load_notebook_training(args.notebook, device=device)
     actor, critic = namespace["actor_model"].to(device), namespace["critic_model"].to(device)
     env = namespace["GermanBridgeGameEnv"](
-        render_mode="human" if args.gui else None, render_delay=args.render_delay)
+        render_mode="human" if args.gui else None, render_delay=args.render_delay,
+        charts_only=args.charts_only)
     learning_rate = namespace.get("learning_rate", 0.001)
     batch_size = args.batch_size or namespace.get("batch_size", 32)
     gamma = namespace.get("gamma", 0.99)
@@ -184,7 +188,7 @@ def main(argv=None):
             metadata={"notebook": str(args.notebook.resolve()), "device": device,
                       "episodes": args.episodes, "epochs": args.epochs, "batch_size": batch_size,
                       "learning_rate": learning_rate, "gamma": gamma, "epsilon": epsilon,
-                      "entropy_coefficient": entropy, "gui": args.gui,
+                      "entropy_coefficient": entropy, "gui": args.gui, "charts_only": args.charts_only,
                       "render_delay": args.render_delay, "seed": args.seed,
                       "torch_threads": torch.get_num_threads()},
             synchronize=torch.cuda.synchronize if device == "cuda" else None)
