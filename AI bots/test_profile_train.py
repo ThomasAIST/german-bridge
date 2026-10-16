@@ -70,7 +70,7 @@ class ProfileTests(unittest.TestCase):
                 self.assertIn("self time", report)
 
     def test_cli_rejects_zero_episodes_or_epochs(self):
-        for option in ("--episodes", "--epochs"):
+        for option in ("--episodes", "--epochs", "--critic-batch-size"):
             with contextlib.redirect_stderr(io.StringIO()):
                 with self.assertRaises(SystemExit) as raised:
                     main([option, "0"])

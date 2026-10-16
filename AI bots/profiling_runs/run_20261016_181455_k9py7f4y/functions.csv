@@ -1,0 +1,604 @@
+file,line,function,primitive_calls,total_calls,self_seconds,cumulative_seconds
+A:\german-bridge\AI bots\train.ipynb::cell_22,1,train,1,1,0.0067448000000000004,1.4427827000000002
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\module.py,1779,_wrapped_call_impl,148,15480,0.011093800000000001,0.7363308000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\module.py,1787,_call_impl,148,15480,0.0190195,0.7361067
+A:\german-bridge\AI bots\train.ipynb::cell_5,14,forward,592,592,0.0327958,0.6357716
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\transformer.py,409,forward,592,592,0.006751200000000001,0.5553352
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\transformer.py,799,forward,1184,1184,0.019417200000000003,0.5294574000000001
+A:\german-bridge\AI bots\train.ipynb::cell_7,11,forward,148,148,0.0031291,0.5290113000000001
+A:\german-bridge\AI bots\train.ipynb::cell_10,21,forward,124,124,0.0025423,0.43170810000000004
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_tensor.py,566,backward,40,40,0.00014140000000000002,0.35427800000000004
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\autograd\__init__.py,255,backward,40,40,0.0005569,0.35412750000000004
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\autograd\graph.py,1059,_engine_run_backward,40,40,0.0006506000000000001,0.3524397
+~,0,<method 'run_backward' of 'torch._C._EngineBase' objects>,40,40,0.3513732,0.3513732
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\transformer.py,961,_sa_block,1152,1152,0.0035629000000000004,0.3063187
+A:\german-bridge\AI bots\train.ipynb::cell_11,36,forward,24,24,0.0002771,0.3038013
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\activation.py,1256,forward,1152,1152,0.011827500000000001,0.2731449
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\functional.py,6664,multi_head_attention_forward,1152,1152,0.016607300000000002,0.2526987
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\optim\optimizer.py,528,wrapper,40,40,0.0011504,0.2526432
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\optim\optimizer.py,59,_use_grad,40,40,0.0007179,0.24808970000000002
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\optim\adam.py,214,step,40,40,0.0004464,0.2470108
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\optim\optimizer.py,140,maybe_fallback,40,40,0.0001453,0.1603833
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\optim\adam.py,902,adam,40,40,0.00032900000000000003,0.1601909
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\optim\adam.py,347,_single_tensor_adam,40,40,0.048972600000000005,0.1580602
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\transformer.py,980,_ff_block,1152,1152,0.0046049,0.14018060000000002
+~,0,<built-in method torch._C._nn.linear>,6704,6704,0.1314633,0.1314633
+~,0,<built-in method torch._C._nn.scaled_dot_product_attention>,1152,1152,0.10757710000000001,0.10757710000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\linear.py,130,forward,4400,4400,0.0054614,0.0852992
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\dropout.py,69,forward,3456,3456,0.0015389000000000002,0.08226420000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\functional.py,1473,dropout,3456,3456,0.0064935,0.0807253
+~,0,<built-in method torch.dropout>,3456,3456,0.0720308,0.0720308
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\optim\optimizer.py,467,_accelerator_graph_capture_health_check,40,40,0.0006449,0.07177800000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\functional.py,6217,_in_projection_packed,1152,1152,0.0096307,0.0704169
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\accelerator\__init__.py,221,current_stream,40,40,9.66e-05,0.06945230000000001
+~,0,<built-in method torch._C._accelerator_getStream>,40,40,0.06708370000000001,0.06708370000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\_contextlib.py,120,decorate_context,1,1,1.39e-05,0.042259500000000005
+A:\german-bridge\AI bots\training_collection.py,8,evaluate_critic_values,1,1,5.0100000000000005e-05,0.042226900000000005
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\rnn.py,1081,forward,148,148,0.0018398000000000002,0.0370064
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\normalization.py,227,forward,2304,2304,0.0034476000000000003,0.031029300000000003
+~,0,<built-in method torch.lstm>,148,148,0.029993000000000002,0.029993000000000002
+A:\german-bridge\AI bots\germanbridgegameenv.py,139,step,104,104,0.0013271000000000001,0.028593300000000002
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\functional.py,2972,layer_norm,2304,2304,0.0029786,0.0263024
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\container.py,254,forward,296,296,0.0011881,0.0254284
+A:\german-bridge\AI bots\germanbridgegameenv.py,541,_play_round,182,182,0.0006428,0.0231119
+~,0,<built-in method torch._transformer_encoder_layer_fwd>,32,32,0.0230786,0.0230786
+A:\german-bridge\AI bots\germanbridgegameenv.py,434,get_observation,105,105,0.0008326000000000001,0.022976800000000002
+~,0,<built-in method torch.layer_norm>,2304,2304,0.0218672,0.0218672
+~,0,<method 'mul_' of 'torch._C.TensorBase' objects>,5160,5160,0.019652700000000002,0.019652700000000002
+~,0,<method 'lerp_' of 'torch._C.TensorBase' objects>,5160,5160,0.0193181,0.0193181
+~,0,<method 'sqrt' of 'torch._C.TensorBase' objects>,5160,5160,0.018687000000000002,0.018687000000000002
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\data\dataloader.py,720,__next__,25,25,0.000231,0.0173663
+~,0,<method 'addcdiv_' of 'torch._C.TensorBase' objects>,5160,5160,0.015661500000000002,0.015661500000000002
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\data\dataloader.py,783,_next_data,25,25,0.0003433,0.014955900000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\optim\adam.py,139,_init_group,40,40,0.0083916,0.014386300000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\data\_utils\fetch.py,49,fetch,20,20,7.55e-05,0.013898800000000001
+~,0,<method 'add_' of 'torch._C.TensorBase' objects>,5160,5160,0.0135127,0.0135127
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\functional.py,1766,relu,2064,2064,0.0011218,0.013304400000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\module.py,1959,__getattr__,42348,42348,0.0132259,0.0132259
+A:\german-bridge\AI bots\train.ipynb::cell_6,16,forward,148,148,0.0005512000000000001,0.0130031
+A:\german-bridge\AI bots\dataset.py,19,collate_states,24,24,0.000504,0.012741700000000002
+~,0,<built-in method torch.relu>,2064,2064,0.011936,0.011936
+A:\german-bridge\AI bots\dataset.py,47,collate_fn,20,20,0.00012,0.0118379
+~,0,<method 'view' of 'torch._C.TensorBase' objects>,10368,10368,0.0113887,0.0113887
+~,0,<method 'addcmul_' of 'torch._C.TensorBase' objects>,5160,5160,0.0110764,0.0110764
+~,0,<method 'masked_fill' of 'torch._C.TensorBase' objects>,1308,1308,0.010694,0.010694
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\utils\rnn.py,258,pack_padded_sequence,148,148,0.0008985000000000001,0.0103744
+~,0,<method 'contiguous' of 'torch._C.TensorBase' objects>,1152,1152,0.010316,0.010316
+~,0,<method 'reshape' of 'torch._C.TensorBase' objects>,2516,2516,0.010015600000000001,0.010015600000000001
+~,0,<method 'transpose' of 'torch._C.TensorBase' objects>,6912,6912,0.009954600000000001,0.009954600000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\distributions\categorical.py,151,log_prob,124,124,0.0012972,0.009849400000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\distributions\categorical.py,56,__init__,124,124,0.0012917,0.009536000000000001
+~,0,<method 'eq' of 'torch._C.TensorBase' objects>,1332,1332,0.009420000000000001,0.009420000000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\optim\optimizer.py,97,_get_value,5160,5160,0.0040952,0.0084279
+A:\german-bridge\AI bots\helpers.py,54,previous_to_tensors,91,91,0.0006968,0.0083132
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\utils\rnn.py,405,pad_sequence,120,120,0.0002358,0.0083066
+A:\german-bridge\AI bots\helpers.py,5,hand_to_tensor,422,422,0.0070845000000000005,0.008208100000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\functional.py,6612,_canonical_mask,8160,8160,0.0031784,0.008039600000000001
+~,0,<built-in method torch._C._nn.pad_sequence>,120,120,0.0077026,0.0077026
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\distributions\distribution.py,46,__init__,124,124,0.0010696,0.007387800000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\functional.py,6649,_check_key_padding_mask,1152,1152,0.0017219000000000002,0.007193000000000001
+~,0,<method 'all' of 'torch._C.TensorBase' objects>,740,740,0.006680500000000001,0.006680500000000001
+~,0,<method 'sum' of 'torch._C.TensorBase' objects>,1048,1048,0.0064219,0.0064219
+A:\german-bridge\AI bots\dataset.py,25,<dictcomp>,24,24,9.730000000000001e-05,0.006266600000000001
+A:\german-bridge\AI bots\helpers.py,22,context_to_tensor,105,105,0.0015622000000000001,0.006197200000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_compile.py,42,inner,40,40,8.910000000000001e-05,0.0061216000000000005
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_dynamo\eval_frame.py,1523,_fn,40,40,0.0002299,0.0059601
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\optim\optimizer.py,1047,zero_grad,40,40,0.0035239000000000004,0.0056124
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\__init__.py,2081,_check_with,2304,2304,0.0041915,0.0054711000000000004
+~,0,<built-in method torch._C._get_tracing_state>,15691,15691,0.0052101000000000005,0.0052101000000000005
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\distributions\constraints.py,532,check,124,124,0.0034163,0.005046
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\distributions\categorical.py,144,sample,104,104,0.0005497000000000001,0.0050298
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_tensor.py,1353,unflatten,1152,1152,0.0013431,0.004948800000000001
+A:\german-bridge\AI bots\germanbridgegameenv.py,596,_make_action_mask,105,105,0.0030337000000000003,0.0048239
+~,0,<built-in method torch.arange>,740,740,0.004640200000000001,0.004640200000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\utils\rnn.py,228,_packed_sequence_init,148,148,0.0002744,0.0040993
+~,0,<built-in method torch.tensor>,809,809,0.0040813,0.0040813
+~,0,<method 'unsqueeze' of 'torch._C.TensorBase' objects>,1900,1900,0.0040528000000000005,0.0040528000000000005
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\utils\rnn.py,195,_packed_sequence_init_args,444,444,0.0013047,0.0037049
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\distributions\distribution.py,280,_validate_sample,124,124,0.0008181000000000001,0.0036766000000000004
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\activation.py,139,forward,912,912,0.00041210000000000004,0.0035585
+A:\german-bridge\AI bots\germanbridgegameenv.py,308,set_training_progress,132,132,0.0004621,0.0034747000000000003
+~,0,<function Tensor.unflatten at 0x0000013DBB1C4F40>,1152,1152,0.0034575,0.0034575
+~,0,<built-in method torch.multinomial>,104,104,0.0034435000000000004,0.0034435000000000004
+~,0,<built-in method torch.zeros_like>,1108,1108,0.0034321000000000004,0.0034321000000000004
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\distributions\utils.py,165,__get__,248,248,0.0005438,0.0033287000000000004
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\autograd\profiler.py,921,__enter__,105,105,0.00044150000000000005,0.0032842
+~,0,<method 'squeeze' of 'torch._C.TensorBase' objects>,1300,1300,0.0032571,0.0032571
+~,0,<method 'permute' of 'torch._C.TensorBase' objects>,1152,1152,0.0032196000000000004,0.0032196000000000004
+A:\german-bridge\AI bots\germanbridgegameenv.py,361,print_training_timing,133,133,0.0003256,0.0032033
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\module.py,2894,train,5,596,0.0006298,0.0030940000000000004
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\compiler\__init__.py,583,is_compiling,10456,10456,0.0024699,0.0030759000000000003
+~,0,<built-in method torch.cat>,748,748,0.0029591,0.0029591
+~,0,<built-in method builtins.isinstance>,22434,23692,0.0020978,0.0029003
+~,0,<built-in method torch._nested_tensor_from_mask>,16,16,0.0021636000000000003,0.0028661000000000003
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_ops.py,1338,__call__,105,105,0.00011260000000000001,0.0028287
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\container.py,387,__getitem__,592,592,0.0007743,0.0027835000000000004
+~,0,<built-in method torch._ops.profiler._record_function_enter_new>,105,105,0.0027161000000000004,0.0027161000000000004
+~,0,<built-in method torch.zeros>,970,970,0.0026743,0.0026743
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\autograd\profiler.py,935,__exit__,105,105,0.0006263,0.0024757
+~,0,<method 'item' of 'torch._C.TensorBase' objects>,5274,5274,0.002471,0.002471
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\utils\rnn.py,240,invert_permutation,148,148,0.0003688,0.0024002000000000003
+a:\german-bridge\AI bots\training_status.py,24,update,11,11,0.0002442,0.00238
+~,0,<method 'clamp_min' of 'torch._C.TensorBase' objects>,592,592,0.0023131000000000002,0.0023131000000000002
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\accelerator\_utils.py,7,_get_device_index,40,40,9.49e-05,0.002272
+~,0,<method 'expand' of 'torch._C.TensorBase' objects>,1152,1152,0.0022630000000000003,0.0022630000000000003
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_VF.py,27,__getattr__,3896,3896,0.0014927,0.0021934000000000003
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\accelerator\__init__.py,135,current_device_index,40,40,4.07e-05,0.0021649
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\distributions\categorical.py,110,logits,124,124,9.360000000000001e-05,0.0021552000000000003
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\distributions\constraints.py,366,check,124,124,0.0021545,0.0021545
+~,0,<method 'to' of 'torch._C.TensorBase' objects>,1309,1309,0.0021427,0.0021427
+~,0,<built-in method torch._C._accelerator_getDeviceIndex>,40,40,0.0003973,0.0021242
+~,0,<method 'index_select' of 'torch._C.TensorBase' objects>,444,444,0.0020833,0.0020833
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\distributions\utils.py,128,probs_to_logits,124,124,0.0001271,0.0020616000000000002
+~,0,<method 'size' of 'torch._C.TensorBase' objects>,5876,5876,0.0020256000000000002,0.0020256000000000002
+~,0,<built-in method torch.sort>,148,148,0.0020041,0.0020041
+~,0,<built-in method torch.is_complex>,10320,10320,0.0019895,0.0019895
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\data\_utils\fetch.py,54,<listcomp>,20,20,0.00010870000000000001,0.0019759
+~,0,<built-in method builtins.all>,411,411,0.0005245,0.0019599
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\container.py,372,_get_abs_string_index,592,592,0.0010764000000000001,0.0019107000000000002
+~,0,<built-in method torch._pack_padded_sequence>,148,148,0.0018759000000000002,0.0018759000000000002
+A:\german-bridge\AI bots\dataset.py,16,__getitem__,520,520,0.0018672,0.0018672
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\module.py,1976,__setattr__,629,629,0.0007414,0.0018599
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\autograd\profiler.py,907,__init__,105,105,0.0005152000000000001,0.0018347
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_ops.py,1160,__call__,105,105,0.0001754,0.0018183000000000001
+~,0,<built-in method builtins.getattr>,6138,6138,0.0013902,0.0018165000000000002
+~,0,<method 'append' of 'list' objects>,32401,32401,0.0018092000000000002,0.0018092000000000002
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\rnn.py,406,_update_flat_weights,148,148,0.000174,0.0017946000000000001
+~,0,<built-in method builtins.len>,13219,14420,0.0011601,0.001775
+A:\german-bridge\AI bots\germanbridgegameenv.py,524,_bid_round,25,25,9.730000000000001e-05,0.0017646
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\cuda\__init__.py,563,_lazy_init,1,3,4.3400000000000005e-05,0.0017269000000000002
+~,0,<built-in method torch.is_floating_point>,5200,5200,0.0016977000000000001,0.0016977000000000001
+~,0,<built-in method torch.stack>,128,128,0.0016827,0.0016827
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\rnn.py,364,_weights_have_changed,148,148,0.0006609000000000001,0.0016086000000000002
+A:\german-bridge\AI bots\helpers.py,152,calculate_losses,20,20,0.00048180000000000006,0.0015245
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_jit_internal.py,104,is_scripting,22888,22888,0.0015045000000000002,0.0015045000000000002
+~,0,<built-in method builtins.any>,139,139,0.00015000000000000001,0.0015009
+~,0,<method 'masked_fill_' of 'torch._C.TensorBase' objects>,592,592,0.0014933000000000001,0.0014933000000000001
+A:\german-bridge\AI bots\player.py,34,play_card,273,273,0.0006355,0.0014439000000000001
+~,0,<built-in method torch._C._nn.one_hot>,105,105,0.0014157,0.0014157
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\jit\_trace.py,1261,is_tracing,1272,1272,0.0007937,0.0013938000000000002
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\utils\rnn.py,75,__new__,296,296,0.0006258,0.0013799
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\distributions\categorical.py,159,entropy,20,20,0.0004802,0.0013679
+~,0,<method 'clone' of 'torch._C.TensorBase' objects>,592,592,0.0013427,0.0013427
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\typing.py,373,inner,105,106,0.0002612,0.0013102
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\rnn.py,1050,permute_hidden,148,148,0.0001421,0.0013052
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\backends\mha\__init__.py,9,get_fastpath_enabled,2928,2928,0.0010324000000000002,0.0012446
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\functional.py,47,broadcast_tensors,144,144,0.000429,0.0012341000000000001
+A:\german-bridge\AI bots\germanbridgegameenv.py,556,_find_winning_card,91,91,0.000849,0.0012268000000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\accelerator\__init__.py,103,current_accelerator,40,80,0.0001,0.0012121
+~,0,<method 'to_padded_tensor' of 'torch._C.TensorBase' objects>,16,16,0.0012081000000000001,0.0012081000000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\functional.py,6543,_mha_shape_check,1152,1152,0.0008597,0.0011736000000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\rnn.py,36,_apply_permutation,296,296,0.0001061,0.0011631
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_tensor.py,1227,__hash__,5418,5418,0.0006417,0.0011191
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\fx\experimental\symbolic_shapes.py,1918,expect_true,2304,2304,0.0008844,0.0010908
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\backends\__init__.py,41,__get__,2304,2304,0.0007177,0.001083
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\typing.py,500,__getitem__,1,2,1.23e-05,0.0010591
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\typing.py,723,Optional,1,1,1.0700000000000001e-05,0.0010568
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\accelerator\__init__.py,74,is_available,40,40,0.00012680000000000002,0.0010404000000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\shutil.py,1408,get_terminal_size,11,11,0.00011850000000000001,0.0010307
+~,0,<built-in method torch._is_all_true>,248,248,0.0010254,0.0010254
+~,0,<method 'scatter_' of 'torch._C.TensorBase' objects>,148,148,0.0010211,0.0010211
+A:\german-bridge\AI bots\helpers.py,145,calculate_surrogate_loss,20,20,0.0003862,0.0010161
+~,0,<method 'write' of '_io.TextIOWrapper' objects>,13,13,0.0010059000000000001,0.0010059000000000001
+~,0,<built-in method torch.log>,124,124,0.0009979000000000001,0.0009979000000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\autograd\__init__.py,91,_make_grads,40,40,0.0006054000000000001,0.0009879
+~,0,<built-in method torch._ops.profiler.>,105,105,0.0009437,0.0009437
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\distributions\utils.py,102,clamp_probs,124,124,0.0002763,0.0009366000000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\typing.py,168,_type_check,3,3,7.71e-05,0.0009279000000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\transformer.py,871,<genexpr>,352,352,0.00019460000000000001,0.0009242
+~,0,<method 'dim' of 'torch._C.TensorBase' objects>,8183,8183,0.0008814000000000001,0.0008814000000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\optim\adam.py,951,<genexpr>,5200,5200,0.0006959000000000001,0.0008796
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\cuda\__init__.py,209,is_available,40,40,0.0001062,0.0008788
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_tensor.py,32,wrapped,91,91,0.00011430000000000001,0.0008755000000000001
+<frozen importlib._bootstrap>,1054,_find_spec,2,2,2.3e-05,0.0008585000000000001
+~,0,<built-in method builtins.max>,347,347,0.0003911,0.0008534
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\transformer.py,44,_get_seq_len,592,592,0.000554,0.0008492
+~,0,<built-in method nt.get_terminal_size>,11,11,0.0008235,0.0008235
+~,0,<built-in method torch._C._cuda_init>,1,1,0.0008223000000000001,0.0008223000000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\typing.py,159,_type_convert,3,3,1.1000000000000001e-05,0.0008203
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\typing.py,866,__init__,1,1,1.27e-05,0.0008083000000000001
+<frozen importlib._bootstrap_external>,1499,find_spec,2,2,3.7e-06,0.0008067
+<frozen importlib._bootstrap_external>,1467,_get_spec,2,2,1.8200000000000002e-05,0.000803
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\module.py,2814,modules,471,471,0.00011870000000000001,0.0007962000000000001
+~,0,<built-in method builtins.compile>,1,1,0.0007943000000000001,0.0007943000000000001
+~,0,<built-in method torch._C._has_torch_function_unary>,7028,7028,0.0007915000000000001,0.0007915000000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\functional.py,4036,smooth_l1_loss,20,20,0.00013790000000000002,0.0007872
+<frozen importlib._bootstrap_external>,1607,find_spec,10,10,6.57e-05,0.0007735000000000001
+~,0,<method 'gather' of 'torch._C.TensorBase' objects>,124,124,0.0007483,0.0007483
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_tensor.py,1159,__floordiv__,91,91,3.85e-05,0.0007437
+~,0,<built-in method builtins.hasattr>,1325,1325,0.0005448,0.0007321000000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\cuda\__init__.py,1944,_register_triton_kernels,1,1,8.900000000000001e-06,0.0007295
+~,0,<built-in method torch.full>,300,300,0.0007291,0.0007291
+<frozen importlib.util>,74,find_spec,1,1,3.3e-06,0.0007197000000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\data\dataloader.py,714,_next_index,25,25,2e-05,0.0007138
+~,0,<built-in method torch.floor_divide>,91,91,0.0007052,0.0007052
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\module.py,2785,children,1187,1187,0.00026470000000000004,0.0007034000000000001
+~,0,<built-in method torch.softmax>,124,124,0.0007022,0.0007022
+A:\german-bridge\AI bots\germanbridgegameenv.py,84,reset,1,1,3.68e-05,0.0007018
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\warnings.py,97,_showwarnmsg,1,1,2.9e-06,0.0006998000000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_ops.py,1225,_must_dispatch_in_python,105,105,0.00020050000000000002,0.0006992000000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\warnings.py,20,_showwarnmsg_impl,1,1,3.9e-06,0.0006969000000000001
+~,0,<built-in method builtins.next>,25,25,2.4e-05,0.0006938000000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\module.py,2916,eval,1,1,1.8000000000000001e-06,0.00068
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\module.py,2845,named_modules,471,1746,0.0005401000000000001,0.0006775
+~,0,<built-in method torch.broadcast_tensors>,144,144,0.0006741000000000001,0.0006741000000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\data\sampler.py,333,__iter__,25,25,0.00014240000000000002,0.0006698
+~,0,<method 'clamp' of 'torch._C.TensorBase' objects>,124,124,0.0006603000000000001,0.0006603000000000001
+~,0,<built-in method torch.all>,124,124,0.000657,0.000657
+~,0,<built-in method nt.stat>,13,13,0.0006549,0.0006549
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\cuda\__init__.py,205,_nvml_based_avail,40,40,9.520000000000001e-05,0.000651
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\warnings.py,118,_formatwarnmsg,1,1,5.7000000000000005e-06,0.0006487
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\warnings.py,35,_formatwarnmsg_impl,1,1,1.01e-05,0.000643
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\linecache.py,26,getline,1,1,2.9e-06,0.0006324000000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\linecache.py,36,getlines,1,1,9.2e-06,0.0006294
+~,0,<method 'abs' of 'torch._C.TensorBase' objects>,124,124,0.0006214,0.0006214
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\linecache.py,80,updatecache,1,1,9e-06,0.0006202
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\optim\optimizer.py,170,_default_to_fused_or_foreach,40,40,0.0002221,0.0006089
+<frozen os>,773,getenv,40,40,0.0001084,0.0005558000000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\random.py,235,_randbelow_with_getrandbits,976,976,0.0003971,0.0005358
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\data\sampler.py,160,__iter__,525,525,0.0001621,0.0005238
+~,0,<built-in method torch._C._is_tracing>,1272,1272,0.0005200000000000001,0.0005200000000000001
+~,0,<built-in method torch._C._has_torch_function>,1475,1475,0.0005126,0.0005126
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\autograd\grad_mode.py,185,__init__,290,290,0.0003053,0.0005114000000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\functional.py,2176,softmax,105,105,8.730000000000001e-05,0.0005036
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\container.py,414,__iter__,592,592,0.0003304,0.0004962
+<frozen importlib._bootstrap_external>,140,_path_stat,12,12,5.3e-06,0.0004938000000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\random.py,367,choice,312,312,0.0001933,0.0004822
+~,0,<built-in method builtins.id>,5420,5420,0.00047940000000000005,0.00047940000000000005
+A:\german-bridge\AI bots\germanbridgegameenv.py,514,_deal_round,13,13,4.02e-05,0.00046300000000000003
+~,0,<built-in method torch._nested_tensor_from_mask_left_aligned>,16,16,0.0004528,0.0004528
+<frozen _collections_abc>,771,get,40,40,9.42e-05,0.00044740000000000003
+~,0,<built-in method torch._C._nn.smooth_l1_loss>,20,20,0.0004421,0.0004421
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\module.py,2794,named_children,1187,1187,0.0003579,0.00043870000000000004
+<frozen os>,674,__getitem__,62,62,0.0002631,0.00043190000000000004
+<frozen importlib._bootstrap>,1165,_find_and_load,1,1,1.0300000000000001e-05,0.0004285
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\random.py,376,shuffle,13,13,0.00014890000000000001,0.00042280000000000003
+~,0,<method 'float' of 'torch._C.TensorBase' objects>,105,105,0.00041630000000000004,0.00041630000000000004
+~,0,<method 'is_capturing' of 'torch.Stream' objects>,40,40,0.00040490000000000003,0.00040490000000000003
+~,0,<method 'softmax' of 'torch._C.TensorBase' objects>,105,105,0.0004043,0.0004043
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\functional.py,6641,_none_or_dtype,4080,4080,0.00040050000000000003,0.00040050000000000003
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_ops.py,1226,<genexpr>,210,210,9.510000000000001e-05,0.00039900000000000005
+~,0,<method 'any' of 'torch._C.TensorBase' objects>,91,91,0.0003953,0.0003953
+<frozen importlib._bootstrap>,1120,_find_and_load_unlocked,1,1,7.2000000000000005e-06,0.00039430000000000004
+~,0,<built-in method torch.empty_like>,148,148,0.0003819,0.0003819
+~,0,<built-in method torch._C._has_torch_function_variadic>,2324,2324,0.0003773,0.0003773
+A:\german-bridge\AI bots\dataset.py,27,<listcomp>,96,96,0.00037180000000000004,0.00037180000000000004
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\data\dataloader.py,492,__iter__,5,5,6.200000000000001e-06,0.00036940000000000003
+~,0,<built-in method torch._C._get_cudnn_enabled>,2304,2304,0.00036530000000000004,0.00036530000000000004
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\data\dataloader.py,433,_get_iterator,5,5,1.4400000000000001e-05,0.00036320000000000005
+A:\german-bridge\AI bots\dataset.py,39,<listcomp>,48,48,0.00032050000000000004,0.0003612
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\container.py,410,__len__,1184,1184,0.00026230000000000003,0.00035800000000000003
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\data\dataloader.py,758,__init__,5,5,3.19e-05,0.0003488
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\parameter.py,21,__instancecheck__,629,629,0.0002553,0.0003442
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_tensor.py,1189,__len__,211,211,0.0001855,0.0003422
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\parameter.py,240,__instancecheck__,629,629,0.00024370000000000001,0.0003303
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\container.py,246,__iter__,296,296,0.00021630000000000003,0.000321
+~,0,<built-in method torch.ones_like>,40,40,0.0003108,0.0003108
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_ops.py,1211,_contains_fake_script_object,105,105,0.0002425,0.0003039
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\data\dataloader.py,627,__init__,5,5,7.620000000000001e-05,0.0002898
+A:\german-bridge\AI bots\germanbridgegameenv.py,429,_card_name,455,455,0.00023950000000000002,0.00028940000000000004
+<string>,1,<lambda>,296,296,0.0001431,0.0002831
+A:\german-bridge\AI bots\dataset.py,38,<genexpr>,1296,1296,0.0002299,0.00028250000000000004
+~,0,<built-in method builtins.sum>,228,228,0.00016370000000000002,0.0002776
+~,0,<built-in method torch.clamp>,40,40,0.000272,0.000272
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\autograd\grad_mode.py,85,__exit__,105,105,0.0001188,0.0002561
+<frozen importlib._bootstrap>,666,_load_unlocked,1,1,4.800000000000001e-06,0.0002423
+<frozen abc>,117,__instancecheck__,138,138,4.5100000000000005e-05,0.00023530000000000003
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\tokenize.py,392,open,1,1,1.93e-05,0.0002345
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\transformer.py,904,<genexpr>,448,448,0.00023420000000000003,0.00023420000000000003
+~,0,<built-in method torch._C._set_grad_enabled>,538,538,0.0002336,0.0002336
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\distributions\categorical.py,105,support,124,124,0.0001239,0.00023170000000000002
+A:\german-bridge\AI bots\germanbridgegameenv.py,334,finish_training_episode,1,1,5.2e-06,0.00022720000000000002
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\_contextlib.py,167,__new__,229,229,0.00016260000000000002,0.000222
+<frozen importlib._bootstrap_external>,96,_path_join,50,50,0.0001493,0.0002188
+~,0,<built-in method torch._C._remove_obj_from_tls>,40,40,0.0002177,0.0002177
+~,0,<built-in method torch.randperm>,10,10,0.0002134,0.0002134
+A:\german-bridge\AI bots\germanbridgegameenv.py,352,finish_training,1,1,6.7e-06,0.000213
+~,0,<built-in method torch.min>,20,20,0.00020370000000000002,0.00020370000000000002
+~,0,<method 'cpu' of 'torch._C.TensorBase' objects>,148,148,0.0002,0.0002
+~,0,<built-in method __new__ of type object at 0x00007FFB52762900>,525,525,0.00019940000000000002,0.00019940000000000002
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\distributions\utils.py,183,__init__,124,124,0.00019910000000000001,0.00019910000000000001
+<frozen importlib._bootstrap_external>,934,exec_module,1,1,5.9e-06,0.0001988
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\autograd\grad_mode.py,136,__enter__,124,124,0.000116,0.0001941
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\optim\optimizer.py,187,<genexpr>,80,80,0.000194,0.000194
+~,0,<built-in method _abc._abc_instancecheck>,138,138,0.00010480000000000001,0.00019020000000000002
+~,0,<method 'items' of 'dict' objects>,1314,1314,0.0001887,0.0001887
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\distributions\distribution.py,266,_extended_shape,104,104,0.0001807,0.00018800000000000002
+~,0,<built-in method torch.exp>,20,20,0.0001811,0.0001811
+<frozen importlib._bootstrap_external>,1007,get_code,1,1,1.1900000000000001e-05,0.0001756
+~,0,<method 'get' of 'dict' objects>,1979,1979,0.0001709,0.0001709
+<frozen os>,748,encodekey,62,62,8.020000000000001e-05,0.0001688
+~,0,<method 'readlines' of '_io._IOBase' objects>,1,1,0.0001551,0.00016560000000000001
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\autograd\grad_mode.py,81,__enter__,105,105,7.76e-05,0.00016120000000000002
+A:\german-bridge\AI bots\player.py,38,<genexpr>,1139,1139,0.0001566,0.0001566
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\autograd\grad_mode.py,76,__init__,105,105,0.0001443,0.0001554
+~,0,<built-in method io.open>,1,1,0.0001509,0.0001509
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\typing.py,679,Union,1,1,2.08e-05,0.00015000000000000001
+A:\german-bridge\AI bots\germanbridgegameenv.py,476,<genexpr>,364,364,0.00010800000000000001,0.00014780000000000001
+~,0,<built-in method builtins.iter>,898,898,0.0001472,0.0001472
+~,0,<method 'logical_not' of 'torch._C.TensorBase' objects>,32,32,0.0001392,0.0001392
+A:\german-bridge\AI bots\dataset.py,36,<listcomp>,48,48,0.0001392,0.0001392
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\distributions\constraints.py,156,is_dependent,248,248,7.69e-05,0.0001385
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\data\dataloader.py,255,__init__,1,1,1.69e-05,0.0001348
+A:\german-bridge\AI bots\dataset.py,33,<listcomp>,24,24,0.00013340000000000002,0.00013340000000000002
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\_foreach_utils.py,13,_get_fused_kernels_supported_devices,40,40,7.09e-05,0.0001332
+~,0,<built-in method torch.is_grad_enabled>,607,607,0.0001316,0.0001316
+A:\german-bridge\AI bots\player.py,26,bid,39,39,5.17e-05,0.0001307
+~,0,<method 'values' of 'dict' objects>,888,888,0.00012890000000000002,0.00012890000000000002
+A:\german-bridge\AI bots\germanbridgegameenv.py,415,_render_event,651,651,0.0001271,0.0001271
+A:\german-bridge\AI bots\helpers.py,134,calculate_returns,1,1,2.6300000000000002e-05,0.0001207
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\transformer.py,1213,_detect_is_causal_mask,592,592,0.0001161,0.0001161
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\distributions\constraints.py,361,__init__,124,124,0.0001078,0.0001078
+~,0,<built-in method _operator.index>,595,595,0.00010420000000000001,0.00010420000000000001
+A:\german-bridge\AI bots\germanbridgegameenv.py,317,<dictcomp>,132,132,0.00010030000000000001,0.00010030000000000001
+~,0,<method 'numel' of 'torch._C.TensorBase' objects>,188,188,0.00010020000000000001,0.00010020000000000001
+~,0,<method 'random_' of 'torch._C.TensorBase' objects>,10,10,9.95e-05,9.95e-05
+~,0,<method 'long' of 'torch._C.TensorBase' objects>,124,124,9.750000000000001e-05,9.750000000000001e-05
+~,0,<method 'detach' of 'torch._C.TensorBase' objects>,23,23,9.520000000000001e-05,9.520000000000001e-05
+~,0,<built-in method torch._C._accelerator_getAccelerator>,80,80,9.33e-05,9.33e-05
+~,0,<method 'getrandbits' of '_random.Random' objects>,1526,1526,9.1e-05,9.1e-05
+<frozen importlib._bootstrap_external>,1127,get_data,1,1,4.2000000000000004e-06,9.05e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\cuda\__init__.py,469,_check_capability,1,1,1.5700000000000002e-05,8.78e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\optim\optimizer.py,221,_get_scalar_dtype,258,258,6.75e-05,8.75e-05
+<frozen abc>,121,__subclasscheck__,3,45,6.8e-06,8.54e-05
+A:\german-bridge\AI bots\dataset.py,44,<listcomp>,96,96,8.48e-05,8.48e-05
+~,0,<built-in method torch._C._stash_obj_in_tls>,40,40,8.47e-05,8.47e-05
+~,0,<built-in method _abc._abc_subclasscheck>,3,45,7.42e-05,8.38e-05
+~,0,<method 'add' of 'set' objects>,1029,1029,8.230000000000001e-05,8.230000000000001e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\logging\__init__.py,1720,getEffectiveLevel,40,40,8.04e-05,8.04e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\autograd\grad_mode.py,140,__exit__,124,124,5.380000000000001e-05,7.850000000000001e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_dynamo\eval_frame.py,279,_callback_from_stance,40,40,7.82e-05,7.82e-05
+a:\german-bridge\AI bots\training_status.py,58,finish,1,1,1.1700000000000001e-05,7.790000000000001e-05
+~,0,<method 'remove' of 'list' objects>,364,364,7.25e-05,7.25e-05
+~,0,<built-in method torch._C._get_privateuse1_backend_name>,80,80,7.05e-05,7.05e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\typing.py,715,<genexpr>,3,3,7.000000000000001e-06,7.04e-05
+~,0,<built-in method torch._C._cuda_getDeviceCount>,45,45,6.97e-05,6.97e-05
+~,0,<function _ParameterMeta.__instancecheck__ at 0x0000013DBC4CB1A0>,1258,1258,6.82e-05,6.82e-05
+~,0,<built-in method torch.empty>,10,10,6.790000000000001e-05,6.790000000000001e-05
+<frozen os>,742,check_str,62,62,5.39e-05,6.620000000000001e-05
+~,0,<built-in method torch.is_autocast_enabled>,48,48,6.390000000000001e-05,6.390000000000001e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\tokenize.py,299,detect_encoding,1,1,8.3e-06,6.0700000000000005e-05
+~,0,<method 'mean' of 'torch._C.TensorBase' objects>,2,2,6e-05,6e-05
+~,0,<built-in method io.open_code>,1,1,5.7900000000000005e-05,5.7900000000000005e-05
+~,0,<method 'update' of 'dict' objects>,133,133,5.7700000000000007e-05,5.7700000000000007e-05
+A:\german-bridge\AI bots\germanbridgegameenv.py,233,<genexpr>,455,455,5.7e-05,5.7e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\cuda\__init__.py,200,_is_compiled,47,47,3.18e-05,5.61e-05
+~,0,<method 'tolist' of 'torch._C.TensorBase' objects>,10,10,5.56e-05,5.56e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_dynamo\decorators.py,87,disable,1,1,1.09e-05,5.2600000000000005e-05
+~,0,<method 'std' of 'torch._C.TensorBase' objects>,2,2,5.0600000000000003e-05,5.0600000000000003e-05
+A:\german-bridge\AI bots\train.ipynb::cell_22,70,<lambda>,4,4,1.2e-05,5.03e-05
+A:\german-bridge\AI bots\germanbridgegameenv.py,425,_suit_symbol,455,455,4.99e-05,4.99e-05
+~,0,<method '__exit__' of '_io._IOBase' objects>,2,2,4.9600000000000006e-05,4.9600000000000006e-05
+~,0,<built-in method time.monotonic>,146,146,4.9000000000000005e-05,4.9000000000000005e-05
+A:\german-bridge\AI bots\helpers.py,128,calculate_advantages,1,1,1.4700000000000002e-05,4.86e-05
+A:\german-bridge\AI bots\germanbridgegameenv.py,295,_refresh_gui_progress,134,134,4.8400000000000004e-05,4.8400000000000004e-05
+~,0,<method 'bit_length' of 'int' objects>,976,976,4.77e-05,4.77e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\optim\optimizer.py,247,_to_scalar,120,120,2.39e-05,4.6e-05
+~,0,<built-in method torch._C._are_functorch_transforms_active>,40,40,4.43e-05,4.43e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\data\dataloader.py,112,_get_distributed_settings,5,5,1.5e-05,4.43e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\tokenize.py,323,read_or_stop,2,2,1.3e-06,4.39e-05
+~,0,<method 'readline' of '_io.BufferedReader' objects>,2,2,4.2600000000000005e-05,4.2600000000000005e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\overrides.py,2013,is_tensor_like,80,80,4.24e-05,4.24e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\typing.py,1376,__init__,1,1,1.01e-05,4.02e-05
+~,0,<method 'join' of 'str' objects>,63,63,2.86e-05,3.91e-05
+<frozen importlib._bootstrap>,566,module_from_spec,1,1,4.9000000000000005e-06,3.8e-05
+A:\german-bridge\AI bots\germanbridgegameenv.py,482,<listcomp>,91,91,3.6700000000000004e-05,3.6700000000000004e-05
+A:\german-bridge\AI bots\germanbridgegameenv.py,613,<listcomp>,91,91,3.6700000000000004e-05,3.6700000000000004e-05
+A:\german-bridge\AI bots\germanbridgegameenv.py,488,<listcomp>,91,91,3.5600000000000005e-05,3.5600000000000005e-05
+~,0,<method 'values' of 'collections.OrderedDict' objects>,160,160,3.44e-05,3.44e-05
+A:\german-bridge\AI bots\germanbridgegameenv.py,602,<listcomp>,105,105,3.37e-05,3.37e-05
+~,0,<built-in method builtins.setattr>,124,124,3.3600000000000004e-05,3.3600000000000004e-05
+A:\german-bridge\AI bots\germanbridgegameenv.py,489,<listcomp>,91,91,3.33e-05,3.33e-05
+~,0,<built-in method _contextvars.copy_context>,40,40,3.3100000000000005e-05,3.3100000000000005e-05
+<frozen importlib._bootstrap_external>,727,_compile_bytecode,1,1,2.7e-06,3.3100000000000005e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\data\sampler.py,153,num_samples,12,12,1.34e-05,3.26e-05
+<frozen importlib._bootstrap>,493,_init_module_attrs,1,1,3.8e-06,3.23e-05
+A:\german-bridge\AI bots\germanbridgegameenv.py,476,<listcomp>,91,91,3.19e-05,3.19e-05
+A:\german-bridge\AI bots\germanbridgegameenv.py,266,<genexpr>,92,92,3.0500000000000003e-05,3.0500000000000003e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_dynamo\eval_frame.py,1485,__init__,1,1,8.6e-06,3e-05
+~,0,<built-in method marshal.loads>,1,1,2.97e-05,2.97e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\rnn.py,230,__setattr__,6,6,9.3e-06,2.9400000000000003e-05
+A:\german-bridge\AI bots\germanbridgegameenv.py,577,<lambda>,364,364,2.92e-05,2.92e-05
+<frozen importlib._bootstrap_external>,159,_path_isfile,1,1,1.2000000000000002e-06,2.85e-05
+<frozen importlib._bootstrap_external>,437,cache_from_source,2,2,7.4e-06,2.78e-05
+<frozen importlib._bootstrap_external>,150,_path_is_mode_type,1,1,7.000000000000001e-07,2.7300000000000003e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\autograd\__init__.py,373,<genexpr>,80,80,1.98e-05,2.72e-05
+A:\german-bridge\AI bots\player.py,28,<listcomp>,39,39,2.72e-05,2.72e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\cuda\__init__.py,481,<genexpr>,7,7,3.2000000000000003e-06,2.71e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\cuda\__init__.py,769,get_device_capability,2,2,5.9e-06,2.65e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\typing.py,916,__eq__,17,17,1.7e-05,2.58e-05
+A:\german-bridge\AI bots\germanbridgegameenv.py,579,_calculate_score,52,52,2.09e-05,2.51e-05
+~,0,<built-in method torch._C._dynamo.eval_frame.set_eval_frame>,40,40,2.51e-05,2.51e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\_foreach_utils.py,8,_get_foreach_kernels_supported_devices,40,40,1.67e-05,2.4900000000000002e-05
+~,0,<method 'isatty' of '_io.TextIOWrapper' objects>,22,22,2.4500000000000003e-05,2.4500000000000003e-05
+<frozen importlib._bootstrap_external>,119,<listcomp>,50,50,1.9200000000000003e-05,2.4200000000000002e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\cuda\__init__.py,412,_code_compatible_with_device,6,6,6.900000000000001e-06,2.39e-05
+~,0,<method 'flush' of '_io.TextIOWrapper' objects>,12,12,2.3800000000000003e-05,2.3800000000000003e-05
+<frozen importlib._bootstrap>,392,cached,2,2,1.9e-06,2.37e-05
+~,0,<method 'upper' of 'str' objects>,62,62,2.2400000000000002e-05,2.2400000000000002e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\distributed\distributed_c10d.py,1952,is_initialized,5,5,1.02e-05,2.22e-05
+<frozen importlib._bootstrap_external>,1146,path_stats,1,1,8.000000000000001e-07,2.22e-05
+~,0,<method 'read' of '_io.BufferedReader' objects>,1,1,2.2000000000000003e-05,2.2000000000000003e-05
+<frozen importlib._bootstrap_external>,567,_get_cached,1,1,4.2000000000000004e-06,2.18e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_dynamo\eval_frame.py,865,__init__,1,1,1.77e-05,2.1400000000000002e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\cuda\__init__.py,487,_check_cubins,1,1,3.5000000000000004e-06,2.12e-05
+~,0,<method 'manual_seed' of 'torch._C.Generator' objects>,6,6,2.0700000000000002e-05,2.0700000000000002e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\cuda\__init__.py,787,get_device_properties,2,2,6e-06,2.0600000000000003e-05
+~,0,<method 'index' of 'list' objects>,91,91,2.02e-05,2.02e-05
+~,0,<built-in method torch.get_default_dtype>,258,258,2e-05,2e-05
+~,0,<method '__exit__' of 'torch._C.DisableTorchFunctionSubclass' objects>,105,105,1.9900000000000003e-05,1.9900000000000003e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_dynamo\decorators.py,796,graph_break,80,80,1.98e-05,1.98e-05
+<frozen importlib._bootstrap>,233,_call_with_frames_removed,3,3,2.0000000000000003e-06,1.9600000000000002e-05
+<frozen importlib._bootstrap>,169,__enter__,1,1,4.3e-06,1.8e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\typing.py,334,_remove_dups_flatten,1,1,7.9e-06,1.76e-05
+~,0,<method 'startswith' of 'str' objects>,113,113,1.76e-05,1.76e-05
+~,0,<built-in method builtins.min>,91,91,1.73e-05,1.73e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\data\dataloader.py,89,create_fetcher,5,5,1.39e-05,1.7100000000000002e-05
+~,0,<method 'numel' of 'torch.Size' objects>,104,104,1.6800000000000002e-05,1.6800000000000002e-05
+~,0,<built-in method builtins.exec>,1,1,1.3e-06,1.6400000000000002e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\typing_extensions.py,3366,_collect_parameters,1,1,5.4e-06,1.6000000000000003e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\autograd\__init__.py,245,_tensor_or_tensors_to_tuple,40,40,1.59e-05,1.59e-05
+A:\german-bridge\AI bots\germanbridgegameenv.py,531,<genexpr>,94,94,1.59e-05,1.59e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\cuda\__init__.py,282,_extract_arch_version,12,12,1.11e-05,1.5700000000000002e-05
+~,0,<method 'ndimension' of 'torch._C.TensorBase' objects>,124,124,1.55e-05,1.55e-05
+a:\german-bridge\AI bots\training_status.py,1,<module>,1,1,4.7e-06,1.5100000000000001e-05
+<frozen importlib._bootstrap_external>,1602,_get_spec,1,1,4.7e-06,1.4900000000000001e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\compiler\__init__.py,736,is_exporting,40,40,1.45e-05,1.45e-05
+~,0,<method 'splitlines' of 'str' objects>,11,11,1.41e-05,1.41e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\cuda\__init__.py,396,_device_requirement,6,6,8.8e-06,1.39e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\typing.py,2287,cast,160,160,1.34e-05,1.34e-05
+~,0,<method 'endswith' of 'str' objects>,161,161,1.34e-05,1.34e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\__init__.py,3416,get_device_module,1,1,1.15e-05,1.32e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\cuda\__init__.py,477,<listcomp>,1,1,2.3e-06,1.29e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\random.py,358,randint,1,1,4.5e-06,1.2600000000000001e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\typing.py,925,__hash__,2,2,1.08e-05,1.23e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\data\dataloader.py,477,__setattr__,20,21,1.1900000000000001e-05,1.23e-05
+A:\german-bridge\AI bots\dataset.py,13,__len__,17,17,1.04e-05,1.23e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\cuda\random.py,123,cb,1,1,3.3e-06,1.22e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\distributed\distributed_c10d.py,1368,WORLD,5,5,8.400000000000001e-06,1.2e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\_reduction.py,7,get_enum,20,20,1.2e-05,1.2e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\_distutils_hack\__init__.py,101,find_spec,2,2,5.2e-06,1.18e-05
+A:\german-bridge\AI bots\germanbridgegameenv.py,388,get_training_timing,11,11,1.09e-05,1.15e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\typing.py,1320,__setattr__,7,7,6.200000000000001e-06,1.1400000000000001e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\gymnasium\core.py,201,unwrapped,135,135,1.1000000000000001e-05,1.1000000000000001e-05
+<frozen importlib._bootstrap>,179,_get_module_lock,1,1,4.800000000000001e-06,1.06e-05
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\typing.py,1279,__init__,1,1,2.1000000000000002e-06,1.0500000000000001e-05
+a:\german-bridge\AI bots\training_status.py,52,<genexpr>,44,44,1.0500000000000001e-05,1.0500000000000001e-05
+<frozen codecs>,319,decode,8,8,5.8e-06,1.0500000000000001e-05
+~,0,<method 'rstrip' of 'str' objects>,152,152,1.04e-05,1.04e-05
+~,0,<built-in method builtins.__build_class__>,1,1,9.800000000000001e-06,1.04e-05
+~,0,<method 'fileno' of '_io.TextIOWrapper' objects>,11,11,1e-05,1e-05
+A:\german-bridge\AI bots\germanbridgegameenv.py,150,<genexpr>,35,35,9.9e-06,9.9e-06
+~,0,<built-in method torch.cuda._get_device_properties>,2,2,9.800000000000001e-06,9.800000000000001e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\jit\__init__.py,129,annotate,105,105,9.3e-06,9.3e-06
+<frozen importlib._bootstrap_external>,778,spec_from_file_location,1,1,4.3e-06,9.2e-06
+~,0,<method 'insert' of 'list' objects>,104,104,8.6e-06,8.6e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\typing.py,306,_deduplicate,1,1,2.4000000000000003e-06,8.5e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\cuda\__init__.py,1241,get_arch_list,2,2,5e-06,8.5e-06
+~,0,<built-in method builtins.divmod>,22,22,8.3e-06,8.3e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\random.py,284,randrange,1,1,3.6000000000000003e-06,8.1e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\nn\modules\activation.py,1525,merge_masks,32,32,8.1e-06,8.1e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\cuda\__init__.py,1212,device_count,5,5,3.9e-06,7.6e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\_contextlib.py,154,clone,1,1,3.3e-06,7.4e-06
+<frozen importlib._bootstrap_external>,1424,_path_importer_cache,11,11,7.3e-06,7.3e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\distributed\__init__.py,18,is_available,5,5,4.000000000000001e-06,7.100000000000001e-06
+<frozen importlib._bootstrap_external>,132,_path_split,2,2,2.5e-06,7.100000000000001e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_dynamo\eval_frame.py,727,innermost_fn,2,2,2.7e-06,6.900000000000001e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\cuda\__init__.py,498,<listcomp>,1,1,1.7e-06,6.8e-06
+A:\german-bridge\AI bots\germanbridgegameenv.py,183,<genexpr>,21,21,6.8e-06,6.8e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\tokenize.py,329,find_cookie,2,2,3.8e-06,6.6e-06
+<frozen importlib._bootstrap>,244,_verbose_message,51,51,6.6e-06,6.6e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\typing_extensions.py,3281,_has_generic_or_protocol_as_origin,1,1,5.1e-06,6.5000000000000004e-06
+~,0,<method 'extend' of 'list' objects>,12,12,5.4e-06,6.4000000000000006e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\optim\optimizer.py,514,_optimizer_step_code,40,40,6.200000000000001e-06,6.200000000000001e-06
+A:\german-bridge\AI bots\germanbridgegameenv.py,459,<listcomp>,14,14,6.1e-06,6.1e-06
+~,0,<built-in method fromkeys>,1,1,4.7e-06,6.1e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\data\sampler.py,131,__init__,1,1,3.5000000000000004e-06,6e-06
+A:\german-bridge\AI bots\germanbridgegameenv.py,163,<genexpr>,65,65,6e-06,6e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_dynamo\eval_frame.py,1490,__call__,1,1,3.7e-06,5.7000000000000005e-06
+<frozen importlib._bootstrap>,748,find_spec,2,2,1.8000000000000001e-06,5.7000000000000005e-06
+A:\german-bridge\AI bots\germanbridgegameenv.py,450,<listcomp>,14,14,5.600000000000001e-06,5.600000000000001e-06
+<frozen importlib._bootstrap>,71,__init__,1,1,2.3e-06,5.4e-06
+A:\german-bridge\AI bots\germanbridgegameenv.py,460,<listcomp>,14,14,5.3e-06,5.3e-06
+<frozen importlib._bootstrap_external>,67,_relax_case,10,10,5.3e-06,5.3e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\typing.py,1266,_is_dunder,7,7,2.6e-06,5.2e-06
+A:\german-bridge\AI bots\germanbridgegameenv.py,271,_record_episode_result,1,1,2.6e-06,4.800000000000001e-06
+~,0,<method 'split' of 'str' objects>,20,20,4.800000000000001e-06,4.800000000000001e-06
+~,0,<built-in method _codecs.utf_8_decode>,8,8,4.7e-06,4.7e-06
+<frozen _collections_abc>,262,__subclasshook__,37,37,4.4e-06,4.4e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_dynamo\eval_frame.py,718,_static_getattr,2,2,4.2000000000000004e-06,4.2000000000000004e-06
+~,0,<built-in method builtins.abs>,42,42,4.2000000000000004e-06,4.2000000000000004e-06
+<frozen importlib._bootstrap>,920,find_spec,2,2,1.9e-06,4.2000000000000004e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\autograd\__init__.py,374,<genexpr>,40,40,4.1000000000000006e-06,4.1000000000000006e-06
+~,0,<built-in method _imp.is_builtin>,2,2,3.9e-06,3.9e-06
+A:\german-bridge\AI bots\germanbridgegameenv.py,323,start_training_timer,1,1,3.5000000000000004e-06,3.8e-06
+<frozen importlib._bootstrap_external>,642,_classify_pyc,1,1,2.1000000000000002e-06,3.8e-06
+<frozen importlib._bootstrap>,1026,__enter__,8,8,2.6e-06,3.8e-06
+<frozen importlib._bootstrap>,173,__exit__,1,1,2.0000000000000003e-06,3.8e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\distributed\distributed_c10d.py,1237,default_pg,5,5,3.6000000000000003e-06,3.6000000000000003e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\data\dataloader.py,507,_auto_collation,10,10,3.5000000000000004e-06,3.5000000000000004e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\typing_extensions.py,3303,_is_unpacked_typevartuple,1,1,1.8000000000000001e-06,3.4e-06
+A:\german-bridge\AI bots\player.py,22,__init__,3,3,2.1000000000000002e-06,3.4e-06
+<frozen importlib._bootstrap_external>,172,_path_isabs,1,1,2.1000000000000002e-06,3.4e-06
+A:\german-bridge\AI bots\dataset.py,6,__init__,1,1,3.3e-06,3.3e-06
+<frozen importlib._bootstrap>,1030,__exit__,8,8,2.2e-06,3.3e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\data\_utils\fetch.py,11,__init__,5,5,3.2000000000000003e-06,3.2000000000000003e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\cuda\__init__.py,300,__contains__,6,6,3.1000000000000004e-06,3.1000000000000004e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\cuda\__init__.py,401,<genexpr>,18,18,3.1000000000000004e-06,3.1000000000000004e-06
+~,0,<built-in method _thread.allocate_lock>,2,2,3.1000000000000004e-06,3.1000000000000004e-06
+<frozen importlib._bootstrap>,100,acquire,1,1,2.8000000000000003e-06,3.1000000000000004e-06
+<frozen codecs>,309,__init__,1,1,2.2e-06,3e-06
+~,0,<method 'match' of 're.Pattern' objects>,3,3,2.8000000000000003e-06,2.8000000000000003e-06
+<frozen importlib._bootstrap_external>,134,<genexpr>,6,6,1.8000000000000001e-06,2.8000000000000003e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\warnings.py,404,__init__,1,1,2.7e-06,2.7e-06
+~,0,<method 'rpartition' of 'str' objects>,15,15,2.7e-06,2.7e-06
+~,0,<method 'format' of 'str' objects>,2,2,2.7e-06,2.7e-06
+<frozen importlib._bootstrap_external>,84,_unpack_uint32,3,3,1.9e-06,2.7e-06
+<frozen importlib._bootstrap>,357,__init__,2,2,2.6e-06,2.6e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\data\dataloader.py,511,_index_sampler,5,5,1.2000000000000002e-06,2.5e-06
+~,0,<built-in method builtins.locals>,2,2,2.4000000000000003e-06,2.4000000000000003e-06
+<frozen importlib._bootstrap_external>,675,_validate_timestamp_pyc,1,1,1.0000000000000002e-06,2.1000000000000002e-06
+~,0,<built-in method torch._C._log_api_usage_once>,1,1,2.0000000000000003e-06,2.0000000000000003e-06
+A:\german-bridge\AI bots\germanbridgegameenv.py,151,<genexpr>,15,15,1.9e-06,1.9e-06
+a:\german-bridge\AI bots\training_status.py,18,__init__,1,1,1.4000000000000001e-06,1.9e-06
+~,0,<method 'removesuffix' of 'str' objects>,24,24,1.9e-06,1.9e-06
+A:\german-bridge\AI bots\player.py,5,__init__,4,4,1.8000000000000001e-06,1.8000000000000001e-06
+<frozen importlib._bootstrap>,125,release,1,1,1.5e-06,1.8000000000000001e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\typing.py,2443,get_origin,1,1,1.3e-06,1.6000000000000001e-06
+~,0,<built-in method _imp.acquire_lock>,10,10,1.6000000000000001e-06,1.6000000000000001e-06
+~,0,<built-in method builtins.hash>,2,2,1.5e-06,1.5e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\cuda\_utils.py,605,_get_device_index,2,2,1.1e-06,1.3e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\data\sampler.py,308,__init__,1,1,1.1e-06,1.3e-06
+~,0,<built-in method _imp.release_lock>,10,10,1.3e-06,1.3e-06
+~,0,<built-in method sys._getframe>,1,1,1.3e-06,1.3e-06
+<frozen importlib._bootstrap>,198,cb,1,1,1.0000000000000002e-06,1.3e-06
+<frozen importlib._bootstrap_external>,599,_check_name_wrapper,1,1,1.1e-06,1.3e-06
+A:\german-bridge\AI bots\germanbridgegameenv.py,346,record_episode_reward,1,1,1.0000000000000002e-06,1.2000000000000002e-06
+~,0,<method 'startswith' of 'bytes' objects>,1,1,1.2000000000000002e-06,1.2000000000000002e-06
+~,0,<built-in method _imp.find_frozen>,2,2,1.2000000000000002e-06,1.2000000000000002e-06
+~,0,<method '__exit__' of '_thread.lock' objects>,3,3,1.1e-06,1.1e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\cuda\__init__.py,502,<genexpr>,7,7,1.0000000000000002e-06,1.0000000000000002e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\cuda\__init__.py,597,<genexpr>,2,2,1.0000000000000002e-06,1.0000000000000002e-06
+~,0,<method 'rfind' of 'str' objects>,4,4,1.0000000000000002e-06,1.0000000000000002e-06
+<frozen importlib._bootstrap_external>,1097,__init__,1,1,1.0000000000000002e-06,1.0000000000000002e-06
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_utils.py,1072,get_calls,1,1,9.000000000000001e-07,9.000000000000001e-07
+~,0,<built-in method torch._C._cuda_getArchFlags>,2,2,9.000000000000001e-07,9.000000000000001e-07
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\data\dataloader.py,444,multiprocessing_context,1,1,4.0000000000000003e-07,9.000000000000001e-07
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\cuda\__init__.py,1934,__init__,2,2,9.000000000000001e-07,9.000000000000001e-07
+A:\german-bridge\AI bots\player.py,16,__init__,1,1,4.0000000000000003e-07,9.000000000000001e-07
+A:\german-bridge\AI bots\germanbridgegameenv.py,279,<genexpr>,5,5,9.000000000000001e-07,9.000000000000001e-07
+A:\german-bridge\AI bots\germanbridgegameenv.py,133,<genexpr>,3,3,9.000000000000001e-07,9.000000000000001e-07
+~,0,<method 'disable' of '_lsprof.Profiler' objects>,1,1,8.000000000000001e-07,8.000000000000001e-07
+<frozen codecs>,260,__init__,1,1,8.000000000000001e-07,8.000000000000001e-07
+~,0,<method 'decode' of 'bytes' objects>,2,2,7.000000000000001e-07,7.000000000000001e-07
+<frozen importlib._bootstrap>,165,__init__,1,1,7.000000000000001e-07,7.000000000000001e-07
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\typing.py,479,__repr__,1,1,6.000000000000001e-07,6.000000000000001e-07
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\cuda\__init__.py,514,is_initialized,4,4,6.000000000000001e-07,6.000000000000001e-07
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_dynamo\eval_frame.py,756,innermost_backend,1,1,4.0000000000000003e-07,6.000000000000001e-07
+a:\german-bridge\AI bots\training_status.py,17,TrainingStatus,1,1,6.000000000000001e-07,6.000000000000001e-07
+~,0,<method 'seek' of '_io.BufferedReader' objects>,1,1,6.000000000000001e-07,6.000000000000001e-07
+~,0,<method 'setdefault' of 'dict' objects>,1,1,6.000000000000001e-07,6.000000000000001e-07
+~,0,<built-in method from_bytes>,3,3,6.000000000000001e-07,6.000000000000001e-07
+<frozen importlib._bootstrap>,48,_new_module,1,1,6.000000000000001e-07,6.000000000000001e-07
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\typing.py,1381,<genexpr>,3,3,5.000000000000001e-07,5.000000000000001e-07
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\utils\data\dataloader.py,555,check_worker_number_rationality,1,1,5.000000000000001e-07,5.000000000000001e-07
+a:\german-bridge\AI bots\training_status.py,7,_notebook_display,1,1,4.0000000000000003e-07,5.000000000000001e-07
+~,0,<method 'clear' of 'collections.deque' objects>,1,1,5.000000000000001e-07,5.000000000000001e-07
+~,0,<built-in method nt._path_splitroot>,1,1,5.000000000000001e-07,5.000000000000001e-07
+~,0,<method 'strip' of 'str' objects>,1,1,5.000000000000001e-07,5.000000000000001e-07
+~,0,<built-in method builtins.callable>,3,3,5.000000000000001e-07,5.000000000000001e-07
+<frozen importlib._bootstrap>,405,parent,1,1,3.0000000000000004e-07,5.000000000000001e-07
+~,0,<built-in method nt.fspath>,3,3,4.0000000000000003e-07,4.0000000000000003e-07
+~,0,<built-in method builtins.delattr>,1,1,4.0000000000000003e-07,4.0000000000000003e-07
+~,0,<built-in method _imp._fix_co_filename>,1,1,4.0000000000000003e-07,4.0000000000000003e-07
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\fx\experimental\dynamic_spec.py,731,_coerce_to_shapes_spec,1,1,3.0000000000000004e-07,3.0000000000000004e-07
+~,0,<built-in method _thread.get_ident>,2,2,3.0000000000000004e-07,3.0000000000000004e-07
+~,0,<method 'replace' of 'str' objects>,1,1,3.0000000000000004e-07,3.0000000000000004e-07
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\_distutils_hack\__init__.py,108,<lambda>,2,2,2.0000000000000002e-07,2.0000000000000002e-07
+~,0,<built-in method torch._C._cuda_isInBadFork>,1,1,2.0000000000000002e-07,2.0000000000000002e-07
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\gymnasium\core.py,114,reset,1,1,2.0000000000000002e-07,2.0000000000000002e-07
+C:\Users\lokhi\anaconda3\envs\german_bridge\Lib\site-packages\torch\_dynamo\eval_frame.py,710,nothing,1,1,2.0000000000000002e-07,2.0000000000000002e-07
+~,0,<method 'pop' of 'dict' objects>,1,1,2.0000000000000002e-07,2.0000000000000002e-07
+<frozen importlib._bootstrap>,413,has_location,1,1,2.0000000000000002e-07,2.0000000000000002e-07
+<frozen importlib._bootstrap_external>,1122,get_filename,1,1,2.0000000000000002e-07,2.0000000000000002e-07
+<frozen importlib._bootstrap_external>,931,create_module,1,1,1.0000000000000001e-07,1.0000000000000001e-07

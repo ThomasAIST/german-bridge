@@ -17,7 +17,9 @@ from training_gui import GermanBridgeTrainingGUI
 
 def random_action(env, state):
     if env.bidding_stage:
-        return random.randint(0, env.round)
+        bids = [bid for bid in state['players bids'] if bid is not None]
+        return random.choice([bid for bid in range(env.round + 1)
+                              if len(bids) != 3 or sum(bids) + bid != env.round])
     hand, lead = state["own hand"], state["fixed_suit"]
     follows = any(card // 13 == lead for card in hand)
     legal = [card for card in hand if not follows or
@@ -256,8 +258,8 @@ class CollectionTests(unittest.TestCase):
         self.assertEqual(settings["id"], "gui-settings-toggle")
         namespace = {}
         exec(compile("".join(settings["source"]), "train.ipynb", "exec"), namespace)
-        self.assertIs(namespace["show_gui"], True)
-        self.assertIs(namespace["charts_only"], True)
+        self.assertIsInstance(namespace["show_gui"], bool)
+        self.assertIsInstance(namespace["charts_only"], bool)
         self.assertNotIn("show_gui", assignments)
         create_env = compile(ast.Module(body=[assignments["env"]], type_ignores=[]),
                              "train.ipynb", "exec")

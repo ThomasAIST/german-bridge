@@ -21,7 +21,8 @@ import time
 
 
 CONFIG_NAMES = {"episode", "epoch", "batch_size", "learning_rate", "gamma",
-                "epsilon", "entropy_coefficient"}
+                "epsilon", "entropy_coefficient", "critic_batch_size",
+                "shuffle_minibatches"}
 
 
 def _assigns_device(statement):
@@ -135,6 +136,10 @@ def main(argv=None):
     parser.add_argument("--epochs", type=positive_int, default=1)
     parser.add_argument("--batch-size", type=positive_int, default=None,
                         help="default: batch_size from the notebook")
+    parser.add_argument("--critic-batch-size", type=positive_int, default=None,
+                        help="default: critic_batch_size from the notebook")
+    parser.add_argument("--no-shuffle", action="store_true",
+                        help="keep update minibatches in episode order")
     parser.add_argument("--device", choices=("cpu", "cuda", "auto"), default="cpu")
     parser.add_argument("--threads", type=positive_int, default=None,
                         help="optional PyTorch CPU thread count")
@@ -168,6 +173,8 @@ def main(argv=None):
         charts_only=args.charts_only)
     learning_rate = namespace.get("learning_rate", 0.001)
     batch_size = args.batch_size or namespace.get("batch_size", 32)
+    critic_batch_size = args.critic_batch_size or namespace.get("critic_batch_size", batch_size)
+    shuffle_minibatches = namespace.get("shuffle_minibatches", True) and not args.no_shuffle
     gamma = namespace.get("gamma", 0.99)
     epsilon = namespace.get("epsilon", 0.2)
     entropy = namespace.get("entropy_coefficient", 0.01)
@@ -182,11 +189,13 @@ def main(argv=None):
                             torch.nn.CrossEntropyLoss(), torch.nn.MSELoss(),
                             actor_optimizer, critic_optimizer, env,
                             episode=args.episodes, epoch=args.epochs, batch_size=batch_size,
-                            gamma=gamma, epsilon=epsilon, entropy_coefficient=entropy, device=device)
+                            gamma=gamma, epsilon=epsilon, entropy_coefficient=entropy, device=device,
+                            critic_batch_size=critic_batch_size, shuffle_minibatches=shuffle_minibatches)
     try:
         profile_call(training_call, output, top=args.top,
             metadata={"notebook": str(args.notebook.resolve()), "device": device,
                       "episodes": args.episodes, "epochs": args.epochs, "batch_size": batch_size,
+                      "critic_batch_size": critic_batch_size, "shuffle_minibatches": shuffle_minibatches,
                       "learning_rate": learning_rate, "gamma": gamma, "epsilon": epsilon,
                       "entropy_coefficient": entropy, "gui": args.gui, "charts_only": args.charts_only,
                       "render_delay": args.render_delay, "seed": args.seed,

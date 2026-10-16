@@ -147,6 +147,8 @@ class GermanBridgeGameEnv(gym.Env):
             assert(self.current_bidder == self.agent_position), "It's not the agent's turn to bid."
             # The action is a bid
             self.players[self.current_bidder].bidded = action
+            if all(x.bidded is not None for x in self.players):
+                assert sum(x.bidded for x in self.players) != self.round, "Total bids exceed the number of cards in the round."
             self._render_event(f"P{self.current_bidder} (AI) bids {action}.")
             self.current_bidder = (self.current_bidder + 1) % 4  # Move to the next bidder
             # while True:
@@ -157,7 +159,7 @@ class GermanBridgeGameEnv(gym.Env):
             #         break
 
             bid_result = self._bid_round()  # Conduct a bidding round where each player makes a bid
-            assert(bid_result is None, "Bidding round did return an observation.")
+            assert bid_result is None, "Bidding round did return an observation."
             assert(all(x.bidded is not None for x in self.players)), "Not all players have made a bid."
             self.bidding_stage = False  # Set the bidding stage to False
             self.playing_stage = True  # Set the playing stage to True
@@ -176,7 +178,7 @@ class GermanBridgeGameEnv(gym.Env):
             #     'triumph_suit': play_result['triumph_suit'],
             #     'fixed_suit': play_result['fixed_suit']
             # }
-            assert(play_result is not None, "Playing round did return an observation.")
+            assert play_result is not None, "Playing round did return an observation."
 
             num_triumph_cards = sum(1 for card in self.played_cards if card // 13 == self.triumph_suit)
             reward = 0.5 if max(0, num_triumph_cards-2) <= action <= min(self.round, num_triumph_cards+2) else -0.5  # Reward for bidding close to the number of triumph cards played
@@ -195,6 +197,8 @@ class GermanBridgeGameEnv(gym.Env):
         else:
             assert(self.playing_stage), "Action is a card play, but the game is not in the playing stage."
             assert(self.current_player == self.agent_position), "It's not the agent's turn to play a card."
+            assert(action>=14 and action<66), "Action is not a valid card play."
+            assert(action-14 in self.players[self.agent_position].hand), "Action is not a card in the agent's hand."
             # The action is a card play
             played_card = action - 14
             # print(played_card, self.players[self.current_player].hand, 'played card and hand')
@@ -212,7 +216,7 @@ class GermanBridgeGameEnv(gym.Env):
             #         break
             self.current_player = (self.current_player + 1) % 4  # Move to the next player
             play_result = self._play_round()  # Conduct a playing round where each player plays a card
-            assert(play_result is None, "Playing round did return an observation.")
+            assert play_result is None, "Playing round did return an observation."
 
             winning_card = self._find_winning_card()  # Determine the winning card of the round
             winning_player = self.played_by[self.played_cards.index(winning_card)]
@@ -232,7 +236,8 @@ class GermanBridgeGameEnv(gym.Env):
             self.played_by = []
 
             if self.players[self.agent_position].hand == []:
-                reward = 0.8 if self.players[self.agent_position].won == self.players[self.agent_position].bidded else -0.8
+                # reward = self._calculate_score(self.players[self.agent_position].bidded, self.players[self.agent_position].won)  # Calculate the score for the agent
+                # reward = 0.8 if self.players[self.agent_position].won == self.players[self.agent_position].bidded else -0.8
                 for i in range(4):
                     self.scores[i] += self._calculate_score(self.players[i].bidded, self.players[i].won)  # Calculate the score for each player
                 self._render_event(f"Round {self.round} finished. Scores: {self.scores}.")
@@ -483,6 +488,7 @@ class GermanBridgeGameEnv(gym.Env):
                 'own hand': [x for x in self.players[self.agent_position].hand],
                 'players bids': [x.bidded for x in self.players]
             }
+        state['action_mask'] = self._make_action_mask(state)
         assert(state is not None), "Observation state is None."
         return state
 
@@ -586,6 +592,41 @@ class GermanBridgeGameEnv(gym.Env):
             return 10 + bid**2  # Score is 10 plus the number of tricks if the bid is met
         else:
             return -(abs(bid - won)**2)  # Negative score based on how far off the bid was
+
+    @staticmethod
+    def _make_action_mask(state):
+        # Actions 0–13: bids; actions 14–65: cards.
+        mask = torch.zeros(66, dtype=torch.bool)
+
+        round_number = state['round']
+        bids = [bid for bid in state['players bids'] if bid is not None]
+
+        if state['phase'] == 0:
+            mask[:round_number + 1] = True
+
+            if len(bids) == 3:
+                forbidden_bid = round_number - sum(bids)
+                if 0 <= forbidden_bid <= round_number:
+                    mask[forbidden_bid] = False
+        else:
+            cards = torch.tensor(
+                [card for card in state['own hand'] if card >= 0],
+                dtype=torch.long,
+            )
+            suits = cards // 13
+            fixed_suit = state['fixed_suit']
+            trump_suit = state['triumph_suit']
+
+            # Preserve your current rule: when following suit is
+            # possible, allow that suit and trump cards.
+            if (suits == fixed_suit).any():
+                cards = cards[
+                    (suits == fixed_suit) | (suits == trump_suit)
+                ]
+
+            mask[cards + 14] = True
+
+        return mask
 # class Player:
 #     def __init__(self, name):
 #         self.name = name

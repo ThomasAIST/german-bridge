@@ -27,6 +27,25 @@ immediate updates at phase changes and completion. The final status remains
 visible; a terminal adds a newline at the end so later output stays separate.
 One full game contains 104 agent decisions: 13 bids and 91 card plays.
 
+The main training cell exposes `critic_batch_size = 32` and
+`shuffle_minibatches = True`. Rollout collection runs only the Actor; once the
+episode finishes, the Critic evaluates observations in their original order,
+before either model is updated. At size 32, 104 decisions require four Critic
+calls for these fixed value targets. Critic dropout is disabled for target
+evaluation and restored for optimization. Update minibatches reshuffle every
+epoch when `shuffle_minibatches` is true. The LSTM processes each observation's
+own history, so shuffling observations does not reorder that history.
+Collation preserves the stored observations, and the hand encoder pools the
+last real token and returns zero for empty histories.
+The PPO Actor stays in training mode for collection and updates so cuDNN can
+backpropagate through its LSTM. At the start of `train()`, ordinary dropout,
+attention dropout, and RNN dropout are set to zero on the Actor, keeping action
+log probabilities consistent between collection and updates. Critic dropout
+retains its existing behavior. For this mode fix alone, rerun the `train()`
+definition cell and then the training call; existing model weights can be reused.
+After changing encoder class definitions, restart the kernel and run the setup
+cells; rerunning only the training call leaves older model classes in memory.
+
 Open the **Episode history** tab to see the AI's final score and finishing rank
 for each completed episode. The rank chart puts **1st place at the top** and 4th
 at the bottom. Equal scores share a rank. History updates automatically when a
@@ -105,7 +124,9 @@ are saved if training raises an exception or you interrupt with Ctrl+C.
 
 Use `--episodes`, `--epochs`, `--batch-size`, `--device cpu|cuda|auto`, and
 `--output-dir` to adjust the run; other training hyperparameters come from the
-notebook. The GUI is off by default; `--gui --render-delay 0.25` includes its
+notebook. Use `--critic-batch-size` to compare rollout evaluation batch sizes,
+or `--no-shuffle` for fixed update minibatches. The GUI is off by default;
+`--gui --render-delay 0.25` includes its
 overhead. Use `--charts-only` to profile the fast charts-only GUI. The standalone
 profiler closes its viewer when profiling finishes.
 CPU is the default because cProfile measures Python/CPU calls, not individual
